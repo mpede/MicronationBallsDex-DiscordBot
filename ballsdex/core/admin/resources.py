@@ -214,6 +214,14 @@ class BallResource(Model):
             name="capacity_description",
             label="Capacity description",
         ),
+		Field(
+			name="tags",
+			label="Tags",
+		),
+		Field(
+			name="location",
+			label="Location",
+		),
     ]
 
     async def get_actions(self, request: Request) -> List[Action]:
