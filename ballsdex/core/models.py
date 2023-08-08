@@ -63,12 +63,16 @@ class Regime(IntEnum):
     DICTATORSHIP = 2
     UNION = 3
 
+    def __int__(self):
+        return self.pk
 
 class Economy(IntEnum):
     CAPITALIST = 1
     COMMUNIST = 2
     ANARCHY = 3
 
+    def __int__(self):
+        return self.pk
 
 class Special(models.Model):
     name = fields.CharField(max_length=64)
@@ -265,10 +269,10 @@ class BallInstance(models.Model):
                     text = f"{emoji} {text}"
         return text
 
-    def draw_card(self) -> BytesIO:
+    async def draw_card(self) -> BytesIO:
         from ballsdex.core.image_generator.image_gen import draw_card
 
-        image = draw_card(self)
+        image = await draw_card(self)
         buffer = BytesIO()
         image.save(buffer, format="png")
         buffer.seek(0)
@@ -314,9 +318,9 @@ class BallInstance(models.Model):
         )
 
         # draw image
-        with ThreadPoolExecutor() as pool:
-            buffer = await interaction.client.loop.run_in_executor(pool, self.draw_card)
-
+        #with ThreadPoolExecutor() as pool:
+            #buffer = await interaction.client.loop.run_in_executor(pool, await self.draw_card) way too lazy to find a proper fix
+        buffer = await self.draw_card()
         return content, discord.File(buffer, "card.png")
 
 

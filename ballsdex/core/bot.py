@@ -103,6 +103,7 @@ class BallsDexBot(commands.AutoShardedBot):
                 )
 
     async def load_cache(self):
+        global regimes, economies
         balls.clear()
         for ball in await Ball.all():
             balls.append(ball)
