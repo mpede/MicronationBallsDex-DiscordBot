@@ -6,7 +6,7 @@ authors = ["laggron42 <laggron42@gmail.com>"]
 license = "MIT"
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = "^3.11.0"
 
 # asyncio
 uvloop = { version = "^0.17.0", markers = "sys_platform != 'win32'" }
@@ -30,6 +30,8 @@ Pillow = "^9.4.0"
 aerich = "^0.6.3"
 pyyaml = "^6.0"
 cachetools = "^5.3.1"
+pilmoji = "^2.0.3"
+nest-asyncio = "^1.5.7"
 
 [tool.poetry.group.dev.dependencies]
 pre-commit = "^3.2.1"
@@ -56,3 +58,8 @@ build-backend = "poetry.core.masonry.api"
 [tool.flake8]
     ignore = "W503,E203"
     max-line-length = 99
+
+#[[tool.poetry.source]]
+#name = 'aliyun.mirrors'
+#url = 'https://mirrors.aliyun.com/pypi/simple/'
+#priority = "default" 
