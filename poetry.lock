@@ -964,17 +964,6 @@ files = [
 ]
 
 [[package]]
-name = "nest-asyncio"
-version = "1.5.7"
-description = "Patch asyncio to allow nested event loops"
-optional = false
-python-versions = ">=3.5"
-files = [
-    {file = "nest_asyncio-1.5.7-py3-none-any.whl", hash = "sha256:5301c82941b550b3123a1ea772ba9a1c80bad3a182be8c1a5ae6ad3be57a9657"},
-    {file = "nest_asyncio-1.5.7.tar.gz", hash = "sha256:6a80f7b98f24d9083ed24608977c09dd608d83f91cccc24c9d2cba6d10e01c10"},
-]
-
-[[package]]
 name = "nodeenv"
 version = "1.8.0"
 description = "Node.js virtual environment builder"
@@ -1808,4 +1797,4 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11.0"
-content-hash = "08cdc9f522f78068d91769856b1b16afc62a8b3568d79d69e997ee7e671e910a"
+content-hash = "41fe8f40fb290706c0fdd9c6376d5e7b381e28017ba0cb4e1f83e05342f1137e"
