@@ -11,10 +11,10 @@ ENV PYTHONFAULTHANDLER=1 \
 
 RUN pip install poetry==1.4.1
 
-ENV DEBIAN_FRONTEND=noninteractive
-RUN apt-get -y update
-RUN apt-get -y upgrade
-RUN apt-get install -y ffmpeg
+#ENV DEBIAN_FRONTEND=noninteractive
+#RUN apt-get -y update
+#RUN apt-get -y upgrade
+#RUN apt-get install -y ffmpeg
 
 WORKDIR /code
 COPY poetry.lock pyproject.toml /code/

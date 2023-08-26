@@ -13,7 +13,9 @@ CREATE TABLE IF NOT EXISTS "ball" (
     "credits" VARCHAR(64) NOT NULL,
     "capacity_name" VARCHAR(64) NOT NULL,
     "capacity_description" VARCHAR(256) NOT NULL,
-    "capacity_logic" JSONB NOT NULL
+    "capacity_logic" JSONB NOT NULL,
+	"location" VARCHAR(60) NOT NULL,
+	"tags" VARCHAR(400)
 );
 COMMENT ON COLUMN "ball"."regime" IS 'Political regime of this country';
 COMMENT ON COLUMN "ball"."economy" IS 'Economical regime of this country';
@@ -27,6 +29,7 @@ COMMENT ON COLUMN "ball"."credits" IS 'Author of the collection artwork';
 COMMENT ON COLUMN "ball"."capacity_name" IS 'Name of the countryball''s capacity';
 COMMENT ON COLUMN "ball"."capacity_description" IS 'Description of the countryball''s capacity';
 COMMENT ON COLUMN "ball"."capacity_logic" IS 'Effect of this capacity';
+COMMENT ON COLUMN "ball"."tags" IS 'Provides detail about the microball';
 CREATE TABLE IF NOT EXISTS "guildconfig" (
     "id" SERIAL NOT NULL PRIMARY KEY,
     "guild_id" INT NOT NULL UNIQUE,
