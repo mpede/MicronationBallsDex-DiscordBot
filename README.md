@@ -1,5 +1,5 @@
-# BallsDex Discord Bot
-
+# BallsDex Discord Bot 
+ 
 [![Discord server](https://discordapp.com/api/guilds/1049118743101452329/embed.png)](https://discord.gg/Qn2Rkdkxwc)
 [![Pre-commit](https://github.com/laggron42/BallsDex-DiscordBot/actions/workflows/pre-commit.yml/badge.svg)](https://github.com/laggron42/BallsDex-DiscordBot/actions/workflows/pre-commit.yml)
 [![Docker build](https://github.com/laggron42/BallsDex-DiscordBot/actions/workflows/docker.yml/badge.svg)](https://github.com/laggron42/BallsDex-DiscordBot/actions/workflows/docker.yml)
