@@ -7,10 +7,10 @@ jobs:
   log_check_200:
     runs-on: ubuntu-latest
     steps:
-    - name: multiple command
+    - name: multiple commands
       uses: appleboy/ssh-action@v1.0.0
       with:
-        host: indigorealms.eu
+        host: ${{ secrets.MNBD_HOST }}
         username: ${{ secrets.MNBD_USERNAME }}
         password: ${{ secrets.MNBD_PASSWORD }}
         script: |
