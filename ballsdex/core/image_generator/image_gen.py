@@ -1,4 +1,4 @@
-/import os, textwrap, json
+import os, textwrap, json
 from pilmoji import Pilmoji
 from pathlib import Path
 from PIL import Image, ImageFont, ImageDraw, ImageOps
