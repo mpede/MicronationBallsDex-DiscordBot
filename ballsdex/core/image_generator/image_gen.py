@@ -33,7 +33,7 @@ f = open(SOURCES_PATH / "flags.json")
 FLAGS = json.loads(f.read())
 f.close()
 
-async def draw_card(ball_instance: "BallInstance"):
+async def draw_card(ball_instance):
     ball = ball_instance.countryball
     ball_health = (237, 115, 101, 255)
     regime: Regime = await ball.cached_regime
