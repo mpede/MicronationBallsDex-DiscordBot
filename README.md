@@ -4,11 +4,12 @@ This is a fork of MicroBallsDex [Link](https://github.com/laggron42/BallsDex-Dis
 
 MicroNationBallsDex is a bot for collecting micronation balls on Discord and exchange them with your friends!
 
-You can invite the bot [here](https://discord.gg/WwvbtpVrRS).
+You can invite the bot [here](https://discord.com/api/oauth2/authorize?client_id=1111989794235490374&permissions=537193536&scope=applications.commands%20bot).
 
-Join the support server here:
+Join the support server here: 
 https://discord.gg/WwvbtpVrRS
-Show the owner support here:
+
+Show the owner support here: 
 https://discord.gg/gsJKCtyJG5
 
 
@@ -18,9 +19,10 @@ Feel free to ask any question on the Discord server above, we'll be here for dis
 issue. If we estimate that your issue is important, you may be invited to post here instead (or
 we'll do it for you).
 
-Join the support server here:
+Join the support server here: 
 https://discord.gg/WwvbtpVrRS
-Show the owner support here:
+
+Show the owner support here: 
 https://discord.gg/gsJKCtyJG5
 
 
