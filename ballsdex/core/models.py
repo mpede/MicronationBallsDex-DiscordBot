@@ -21,7 +21,6 @@ regimes: dict[int, Regime] = {}
 economies: dict[int, Economy] = {}
 specials: dict[int, Special] = {}
 
-
 async def lower_catch_names(
     model: Type[Ball],
     instance: Ball,
@@ -142,11 +141,11 @@ class Ball(models.Model):
     capacity_description = fields.CharField(
         max_length=256, description="Description of the countryball's capacity"
     )
-    capacity_logic = fields.JSONField(description="Effect of this capacity", default={})
+    #capacity_logic = fields.JSONField(description="Effect of this capacity", default={})
     tags = fields.CharField(
         max_length=400, description="Provides details about the microball"
     )
-    location = fields.CharField(max_length=60)
+    #location = fields.CharField(max_length=60)
 
     instances: fields.BackwardFKRelation[BallInstance]
 
