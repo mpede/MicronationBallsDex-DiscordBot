@@ -19,7 +19,6 @@ if TYPE_CHECKING:
 balls: list[Ball] = []
 specials: list[Special] = []
 
-
 async def lower_catch_names(
     model: Type[Ball],
     instance: Ball,
