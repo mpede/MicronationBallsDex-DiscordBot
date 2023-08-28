@@ -16,8 +16,10 @@ if TYPE_CHECKING:
     from tortoise.backends.base.client import BaseDBAsyncClient
 
 
-balls: list[Ball] = []
-specials: list[Special] = []
+balls: dict[int, Ball] = {}
+regimes: dict[int, Regime] = {}
+economies: dict[int, Economy] = {}
+specials: dict[int, Special] = {}
 
 async def lower_catch_names(
     model: Type[Ball],
@@ -57,18 +59,22 @@ class GuildConfig(models.Model):
     )
 
 
-class Regime(IntEnum):
-    DEMOCRACY = 1
-    DICTATORSHIP = 2
-    UNION = 3
+class Regime(models.Model):
+    name = fields.CharField(max_length=64)
+    background = fields.CharField(max_length=200, description="1428x2000 PNG image")
+
+    def __str__(self):
+        return self.name
 
     def __int__(self):
         return self.pk
 
-class Economy(IntEnum):
-    CAPITALIST = 1
-    COMMUNIST = 2
-    ANARCHY = 3
+class Economy(models.Model):
+    name = fields.CharField(max_length=64)
+    icon = fields.CharField(max_length=200, description="512x512 PNG image")
+
+    def __str__(self):
+        return self.name
 
     def __int__(self):
         return self.pk
@@ -86,9 +92,7 @@ class Special(models.Model):
     rarity = fields.FloatField(
         description="Value between 0 and 1, chances of using this special background."
     )
-    democracy_card = fields.CharField(max_length=200)
-    dictatorship_card = fields.CharField(max_length=200)
-    union_card = fields.CharField(max_length=200)
+    background = fields.CharField(max_length=200, description="1428x2000 PNG image", null=True)
     emoji = fields.CharField(
         max_length=20,
         description="Either a unicode character or a discord emoji ID",
@@ -97,16 +101,6 @@ class Special(models.Model):
 
     def __str__(self) -> str:
         return self.name
-
-    def get_background(self, regime: Regime) -> str | None:
-        if regime == Regime.DEMOCRACY:
-            return self.democracy_card
-        elif regime == Regime.DICTATORSHIP:
-            return self.dictatorship_card
-        elif regime == Regime.UNION:
-            return self.union_card
-        else:
-            return None
 
 
 class Ball(models.Model):
@@ -117,8 +111,15 @@ class Ball(models.Model):
         default=None,
         description="Additional possible names for catching this ball, separated by semicolons",
     )
-    regime = fields.IntEnumField(Regime, description="Political regime of this country")
-    economy = fields.IntEnumField(Economy, description="Economical regime of this country")
+    regime: fields.ForeignKeyRelation[Regime] = fields.ForeignKeyField(
+        "models.Regime", description="Political regime of this country", on_delete=fields.CASCADE
+    )
+    economy: fields.ForeignKeyRelation[Economy] = fields.ForeignKeyField(
+        "models.Economy",
+        description="Economical regime of this country",
+        on_delete=fields.SET_NULL,
+        null=True,
+    )
     health = fields.IntField(description="Ball health stat")
     attack = fields.IntField(description="Ball attack stat")
     rarity = fields.FloatField(description="Rarity of this ball")
@@ -150,6 +151,14 @@ class Ball(models.Model):
 
     def __str__(self) -> str:
         return self.country
+
+    @property
+    def cached_regime(self) -> Regime:
+        return regimes.get(self.regime_id, self.regime)
+
+    @property
+    def cached_economy(self) -> Economy:
+        return economies.get(self.economy_id, self.economy)
 
 
 Ball.register_listener(signals.Signals.pre_save, lower_catch_names)
@@ -188,28 +197,15 @@ class BallInstance(models.Model):
     @property
     def special_card(self) -> str | None:
         if self.specialcard:
-            return (
-                self.specialcard.get_background(self.countryball.regime)
-                or self.countryball.collection_card
-            )
+            return self.specialcard.background or self.countryball.collection_card
 
     @property
     def countryball(self) -> Ball:
-        if balls:
-            try:
-                return next(filter(lambda ball: ball.pk == self.ball_id, balls))
-            except StopIteration:
-                pass
-        return self.ball
+        return balls.get(self.ball_id, self.ball)
 
     @property
     def specialcard(self) -> Special:
-        if specials:
-            try:
-                return next(filter(lambda x: x.pk == self.special_id, specials))
-            except StopIteration:
-                pass
-        return self.special
+        return specials.get(self.special_id, self.special)
 
     def __str__(self) -> str:
         return self.to_string()
@@ -347,6 +343,17 @@ class Player(models.Model):
 class BlacklistedID(models.Model):
     discord_id = fields.BigIntField(
         description="Discord user ID", unique=True, validators=[DiscordSnowflakeValidator()]
+    )
+    reason = fields.TextField(null=True, default=None)
+    date = fields.DatetimeField(null=True, default=None, auto_now_add=True)
+
+    def __str__(self) -> str:
+        return str(self.discord_id)
+
+
+class BlacklistedGuild(models.Model):
+    discord_id = fields.BigIntField(
+        description="Discord Guild ID", unique=True, validators=[DiscordSnowflakeValidator()]
     )
     reason = fields.TextField(null=True, default=None)
     date = fields.DatetimeField(null=True, default=None, auto_now_add=True)

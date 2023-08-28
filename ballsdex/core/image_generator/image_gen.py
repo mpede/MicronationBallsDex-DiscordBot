@@ -3,11 +3,7 @@ from pilmoji import Pilmoji
 from pathlib import Path
 from PIL import Image, ImageFont, ImageDraw, ImageOps
 from typing import TYPE_CHECKING
-<<<<<<< HEAD
-from ballsdex.core.models import Economy, Regime
-=======
 from ballsdex.core.models import Regime, Economy
->>>>>>> dev_e
 
 if TYPE_CHECKING:
     from ballsdex.core.models import BallInstance
@@ -44,27 +40,9 @@ async def draw_card(ball_instance):
         ball_health = (255, 255, 255, 255)
     elif special_image := ball_instance.special_card:
         image = Image.open("." + special_image)
-    elif ball.regime == Regime.DEMOCRACY:
-        image = Image.open(str(SOURCES_PATH / "democracy.png"))
-    elif ball.regime == Regime.DICTATORSHIP:
-        image = Image.open(str(SOURCES_PATH / "dictatorship.png"))
-        ball_health = (131, 98, 240, 255)
-    elif ball.regime == Regime.UNION:
-        image = Image.open(str(SOURCES_PATH / "union.png"))
     else:
-<<<<<<< HEAD
-        raise RuntimeError(f"Regime unknown: {ball.regime}")
-
-    if ball.economy == Economy.CAPITALIST:
-        icon = Image.open(str(SOURCES_PATH / "capitalist.png"))
-    elif ball.economy == Economy.COMMUNIST or ball.economy == Economy.ANARCHY:
-        icon = Image.open(str(SOURCES_PATH / "communist.png"))
-    else:
-        raise RuntimeError(f"Economy unknown: {ball.economy}")
-=======
         image = Image.open("." + regime.background)
     icon = Image.open("." + economy.icon) if economy else None
->>>>>>> dev_e
 
     draw = ImageDraw.Draw(image)
     draw.text((50, 20), ball.short_name or ball.country, font=title_font)
@@ -115,10 +93,10 @@ async def draw_card(ball_instance):
     artwork = Image.open("." + ball.collection_card)
     image.paste(ImageOps.fit(artwork, artwork_size), CORNERS[0])
 
-    icon = ImageOps.fit(icon, (192, 192))
-    image.paste(icon, (1200, 30), mask=icon)
-
-    icon.close()
+    if icon:
+        icon = ImageOps.fit(icon, (192, 192))
+        image.paste(icon, (1200, 30), mask=icon)
+        icon.close()
     artwork.close()
 
     pilmoji = Pilmoji(image)
