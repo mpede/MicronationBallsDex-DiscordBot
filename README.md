@@ -5,6 +5,8 @@ Microballs is a bot where you catch and collect many different Micronations!
 
 Trade them, collect them and catch 'em all!
 
+[Click here to invite!](https://discord.com/api/oauth2/authorize?client_id=1111989794235490374&permissions=8&scope=bot)      
+
 ## Support
 If you:
 * Want to report a bug
