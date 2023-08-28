@@ -1,8 +1,9 @@
-import os
+import os, json
+from pathlib import Path
 from fastapi_admin.app import app
 from fastapi_admin.enums import Method
 from fastapi_admin.file_upload import FileUpload
-from fastapi_admin.resources import Field, Link, Model, Action
+from fastapi_admin.resources import ComputeField, Field, Link, Model, Action
 from fastapi_admin.widgets import displays, filters, inputs
 from starlette.requests import Request
 from ballsdex.core.models import (
@@ -25,9 +26,16 @@ class Home(Link):
     icon = "fas fa-home"
     url = "/admin"
 
+SOURCES_PATH = Path(os.path.dirname(os.path.abspath(__file__)), "../image_generator/src")
+f = open(SOURCES_PATH / "flags.json")
+locs = [(x,x) for x in list(json.loads(f.read()).keys())]
+f.close()
 
 upload = FileUpload(uploads_dir=os.path.join(".", "static", "uploads"))
 
+class Locations(inputs.Select):
+	async def get_options(self):
+		return locs
 
 @app.register
 class AdminResource(Model):
@@ -234,8 +242,9 @@ class BallResource(Model):
 		Field(
 			name="location",
 			label="Location",
-		),
-    ]
+			input_=Locations(default="a")
+		)
+  ]
 
     async def get_actions(self, request: Request) -> List[Action]:
         actions = await super().get_actions(request)

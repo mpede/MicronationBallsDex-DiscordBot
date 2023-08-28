@@ -99,7 +99,10 @@ async def draw_card(ball_instance):
         icon.close()
     artwork.close()
 
-    pilmoji = Pilmoji(image)
-    pilmoji.text((1240,1860), FLAGS[ball.location], (0,0,0), capacity_name_font)
+	try:
+    	pilmoji = Pilmoji(image)
+    	pilmoji.text((1240,1860), FLAGS[ball.location], (0,0,0), capacity_name_font)
+	except KeyError:
+		pilmoji.text((1240,1860), FLAGS["N/A"], (0,0,0), capacity_name_font)
 
     return image
