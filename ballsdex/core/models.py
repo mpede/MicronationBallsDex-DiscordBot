@@ -115,10 +115,7 @@ class Ball(models.Model):
         "models.Regime", description="Political regime of this country", on_delete=fields.CASCADE
     )
     economy: fields.ForeignKeyRelation[Economy] = fields.ForeignKeyField(
-        "models.Economy",
-        description="Economical regime of this country",
-        on_delete=fields.SET_NULL,
-        null=True,
+        "models.Economy", description="Economical regime of this country", on_delete=fields.CASCADE
     )
     health = fields.IntField(description="Ball health stat")
     attack = fields.IntField(description="Ball attack stat")
