@@ -13,6 +13,9 @@ If you:
 
 Open an issue on github or [go to the support server on Discord](https://discord.gg/vPdmYXf4x6).
 
+Suggestions for balls are only allowed in the support server, do not make an issue if you want your microball to be added!
+
+
 If you would like to support the creator, [then you can do that here](https://discord.gg/tYvRgXmGvA).
 
 ## Credits
