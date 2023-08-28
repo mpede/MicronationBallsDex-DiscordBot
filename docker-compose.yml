@@ -6,7 +6,7 @@ x-common-env-vars:
   - &postgres-db-hostname mnb-postgres-dev
   - &postgres-backup-hostname mnb-postgres-backup-dev
   - &redis-hostname mnb-redis-dev
-  - &admin-panel-port 8113
+  - &admin-panel-port 8112
   - &admin-panel-cmd poetry run uvicorn ballsdex.core.admin:_app --host 0.0.0.0 --port 8112
   - &postgres-db POSTGRES_DB=ballsdex
   - &postgres-user POSTGRES_USER=ballsdex
@@ -16,7 +16,7 @@ x-common-env-vars:
   - &postgres-backup-location /var/opt/pgbackups-dev:/backups
   - &traefik-cfg
       - "traefik.enable=true"
-      - "traefik.http.routers.mbdadev.rule=Host(`balls-qa.pantonianrepublic.com`)"
+      - "traefik.http.routers.mbdadev.rule=Host(`balls-dev.pantonianrepublic.com`)"
       - "traefik.http.routers.mbdadev.entrypoints=websecure"
       - "traefik.http.routers.mbdadev.tls.certresolver=mpede"
       - "traefik.http.routers.mbdadev.service=mbdadev"
