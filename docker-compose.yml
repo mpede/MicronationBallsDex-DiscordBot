@@ -1,27 +1,38 @@
 version: '3.4'
 
 x-common-env-vars:
-  - &postgres-db
-    POSTGRES_DB=ballsdex
-  - &postgres-user
-    POSTGRES_USER=ballsdex
-  - &postgres-url
-    "BALLSDEXBOT_DB_URL=postgres://ballsdex:${POSTGRES_PASSWORD}@postgres:5432/ballsdex"
+  - &bot-hostname mnb-bot-live
+  - &admin-panel-hostname mnb-adminpanel-live
+  - &postgres-db-hostname mnb-postgres-live
+  - &postgres-backup-hostname mnb-postgres-backup-live
+  - &redis-hostname mnb-redis-live
+  - &admin-panel-port 8111
+  - &admin-panel-cmd poetry run uvicorn ballsdex.core.admin:_app --host 0.0.0.0 --port 8111
+  - &postgres-db POSTGRES_DB=ballsdex
+  - &postgres-user POSTGRES_USER=ballsdex
+  - &postgres-url "BALLSDEXBOT_DB_URL=postgres://ballsdex:${POSTGRES_PASSWORD}@mnb-postgres-live:5432/ballsdex"
+  - &redis-url "BALLSDEXBOT_REDIS_URL=redis://mnb-redis-live"
+  - &postgres-host POSTGRES_HOST=mnb-postgres-live
+  - &traefik-cfg
+      - "traefik.enable=true"
+      - "traefik.http.routers.mbda.rule=Host(`balls.pantonianrepublic.com`)"
+      - "traefik.http.routers.mbda.entrypoints=websecure"
+      - "traefik.http.routers.mbda.tls.certresolver=mpede"
+      - "traefik.http.routers.mbda.service=mbda"
+      - "traefik.http.services.mbda.loadbalancer.server.port=8111"
+
 
 services:
 
   bot:
     restart: "no"
     image: ballsdex
+    hostname: *bot-hostname
     build: .
     environment:
       - *postgres-url
     depends_on:
       - postgres-db
-    # ports:
-    #   - "15260:15260"
-#    networks:
-#      - internalbd
     volumes:
       - type: bind
         source: ./
@@ -31,16 +42,12 @@ services:
 
   admin-panel:
     image: ballsdex
+    hostname: *admin-panel-hostname
     expose:
-      - 8111
-    #ports:
-    #  - 8112:8111
-#    networks:
-#      - traefik
-#      - internalbd
+      - *admin-panel-port
     environment:
       - *postgres-url
-      - "BALLSDEXBOT_REDIS_URL=redis://redis"
+      - *redis-url
     depends_on:
       - postgres-db
       - redis-cache
@@ -49,47 +56,35 @@ services:
         source: ./
         target: /code
     tty: true
-    command: poetry run uvicorn ballsdex.core.admin:_app --host 0.0.0.0 --port 8111
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.mbda.rule=Host(`balls.pantonianrepublic.com`)"
-      - "traefik.http.routers.mbda.entrypoints=websecure"
-      - "traefik.http.routers.mbda.tls.certresolver=mpede"
-      - "traefik.http.routers.mbda.service=mbda"
-      - "traefik.http.services.mbda.loadbalancer.server.port=8111"
-      #- "traefik.http.services.mnballsadmin.loadbalancer.server.scheme=https"
+    command: *admin-panel-cmd
+    labels: *traefik-cfg
+
 
   postgres-db:
     image: postgres
     restart: always
-    hostname: postgres
+    hostname: *postgres-db-hostname
     environment:
       - *postgres-db
       - *postgres-user
       - POSTGRES_PASSWORD
-    # WARNING: before exposing ports, change the default db password in the .env file!
-    # ports:
-    #   - "5432:5432"
-#    networks:
-#      - internalbd
-    volumes:  # Persist the db data
+    volumes: 
       - database-data:/var/lib/postgresql/data
 
   postgres-backup:
     image: prodrigestivill/postgres-backup-local
     restart: always
     user: postgres:postgres
+    hostname: *postgres-backup-hostname
     volumes:
       - /var/opt/pgbackups:/backups
     depends_on:
       - postgres-db
-#    networks:
-#      - internalbd
     environment:
       - *postgres-db
       - *postgres-user
       - POSTGRES_PASSWORD
-      - POSTGRES_HOST=postgres
+      - *postgres-host
       - SCHEDULE=@daily
       - BACKUP_KEEP_DAYS=7
       - BACKUP_KEEP_WEEKS=4
@@ -99,29 +94,13 @@ services:
   redis-cache:
     image: redis:latest
     restart: always
-    hostname: redis
-    # ports:
-    #   - "6379:6379"
-#    networks:
-#      - internalbd
+    hostname: *redis-hostname
     environment:
       - ALLOW_EMPTY_PASSWORD=yes
     command: redis-server --save 20 1 --loglevel warning
     volumes: 
       - cache-data:/data
 
-  # Uncomment to enable gateway proxy feature and
-  # add "gateway-url: ws://gateway_proxy:5421" to your config.yaml
-  # Also change tag corresponding to your platform if not x86-64
-  #
-  # gateway-proxy:
-  #   container_name: gateway_proxy
-  #   image: docker.io/gelbpunkt/gateway-proxy:x86-64
-  #   restart: always
-  #   volumes:
-  #     - ./gatewayproxy/config.json:/config.json
-  #   networks:
-  #     - internal
 
 volumes:
   database-data:
