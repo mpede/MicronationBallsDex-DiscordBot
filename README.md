@@ -1,33 +1,32 @@
-# BallsDex Discord Bot for Micronations
+# Microballs Github Repository
+###### This is a fork of the [BallsDex repository](https://github.com/Ballsdex-Team/BallsDex-DiscordBot).
 
-This is a fork of MicroBallsDex [Link](https://github.com/laggron42/BallsDex-Discordbot/)
+Microballs is a bot where you catch and collect many different Micronations!
+Trade them, collect them and catch 'em all!
 
-MicroNationBallsDex is a bot for collecting micronation balls on Discord and exchange them with your friends!
+[Click here to invite!](https://discord.com/api/oauth2/authorize?client_id=1111989794235490374&permissions=8&scope=bot)      
 
-You can invite the bot [here](https://discord.com/api/oauth2/authorize?client_id=1111989794235490374&permissions=537193536&scope=applications.commands%20bot).
+## Support
+If you:
+* Want to report a bug
+* Have a suggestion
+* Have a question about microballs
 
-Join the support server here: 
-https://discord.gg/WwvbtpVrRS
+Open an issue on github or [go to the support server on Discord](https://discord.gg/vPdmYXf4x6).
+Suggestions for balls are only allowed in the support server, do not make an issue if you want your microball to be added!
 
-Show the owner support here: 
-https://discord.gg/gsJKCtyJG5
+If you would like to support the creator, [then you can do that here](https://discord.gg/tYvRgXmGvA).
 
+## Credits
 
-## Suggestions, questions and bug reports
+| Role           | People                                            |
+| -------------- |:-------------------------------------------------:|
+| Owner          | Django                                            |
+| Principal Engineer    | millipede                                         |
+| Developers     | e_, sebbog, Magestick                             |
+| Artists        | theforgettabledino, sebbog, Magestick, Rusty Potato|
 
-Feel free to ask any question on the Discord server above, we'll be here for discussing about your
-issue. If we estimate that your issue is important, you may be invited to post here instead (or
-we'll do it for you).
-
-Join the support server here: 
-https://discord.gg/WwvbtpVrRS
-
-Show the owner support here: 
-https://discord.gg/gsJKCtyJG5
-
+Thanks to everybody who contributed a microball!
 
 ## License
-
-This repository is released under the [MIT license](https://opensource.org/licenses/MIT).
-
-If distributing this bot, credits to the original authors must not be removed.
+This project is released under the [MIT](https://opensource.org/license/mit/) license.
