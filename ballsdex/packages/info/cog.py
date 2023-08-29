@@ -146,11 +146,12 @@ class Info(commands.Cog):
             f"**{players_count}** players that caught "
             f"**{balls_instances_count}** {settings.collectible_name}s\n"
             f"**{len(self.bot.guilds)}** servers playing\n\n"
-            "This bot was made by the Pantonian Coders, Django07, millipede, e_, Magestick, sebbog\n"
-            "Main artists theforgettabledino, sebbog, Magestick & Rusty Potato :heart:\n\n"
-            "Thanks goes out to all microsnations out there who contributed artwork / balls\n\n\"
-            "For request of adding your micronation as a ball, please go to our support server and file a request!\n\n"
-            f"[Discord Support Server]({settings.discord_invite})\n\n MicronationsBalls: [Invite me]({invite_link}) •  [Invite me - alternative link]({settings.discord_bot_invite}) •"
+            "This bot was made by the Pantonian Coders:\nDjango07, millipede, e_, Magestick, sebbog\nOriginal bot developed by El Laggron (laggron42)\n\n"
+            "Main artists are:\ntheforgettabledino, sebbog, Magestick & Rusty Potato\n\n"
+            "Thanks goes out to all micronations out there who contributed artwork / balls\n\n"
+            "For request of adding your micronation as a ball, please go to our support server and file a request!\n"
+            f"[Discord Support Server]({settings.discord_invite})\n\n MicronationsBalls: [Invite me]({invite_link})\n"
+            f"[Invite me - alternative link]({settings.discord_bot_invite})\n"
             f"[Source code]({settings.github_link})\n"
             f"[Terms of Service]({settings.terms_of_service}) • "
             f"[Privacy policy]({settings.privacy_policy})\n\n\n"
@@ -160,7 +161,7 @@ class Info(commands.Cog):
         embed.set_thumbnail(url=self.bot.user.display_avatar.url)
         v = sys.version_info
         embed.set_footer(
-            text=f"Python {v.major}.{v.minor}.{v.micro} • discord.py {discord.__version__}"
+            text=f"\nPython {v.major}.{v.minor}.{v.micro} • discord.py {discord.__version__}"
         )
 
         await interaction.response.send_message(embed=embed)
