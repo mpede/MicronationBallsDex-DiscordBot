@@ -315,6 +315,12 @@ class BallInstance(models.Model):
         buffer = await self.draw_card()
         return content, discord.File(buffer, "card.png")
 
+class NewsArticle(models.Model):
+	title = fields.CharField(max_length=512, description="The title of the news article")
+	content = fields.TextField(description="The content of the news article")
+	date = fields.DatetimeField(auto_now_add=True, description="When the article was written")
+	color = fields.BigIntField(description="The color of the embed", default=0xff8040)
+
 
 class DonationPolicy(IntEnum):
     ALWAYS_ACCEPT = 1

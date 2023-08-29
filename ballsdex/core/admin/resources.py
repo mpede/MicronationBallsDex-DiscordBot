@@ -16,6 +16,7 @@ from ballsdex.core.models import (
     Player,
     GuildConfig,
     BlacklistedID,
+	NewsArticle
 )
 from typing import List
 
@@ -36,6 +37,10 @@ upload = FileUpload(uploads_dir=os.path.join(".", "static", "uploads"))
 class Locations(inputs.Select):
 	async def get_options(self):
 		return locs
+
+class ColorWrapper(inputs.Color):
+	async def parse_value(self, request: Request, value):
+		return int(value[1:], 16)
 
 @app.register
 class AdminResource(Model):
@@ -164,6 +169,26 @@ class EconomyResource(Model):
 
 
 @app.register
+class NewsResource(Model):
+	label = "Articles"
+	model = NewsArticle
+	page_size = 50
+	icon = "fas fa-globe"
+	page_pre_title = "news"
+	page_title = "News Articles"
+	filters = []
+	fields = [
+		"title",
+		"content",
+		"date",
+		Field(
+			name = "color",
+			label = "Color",
+			input_=ColorWrapper()
+		)
+	]
+
+@app.register
 class BallResource(Model):
     label = "Ball"
     model = Ball
@@ -242,7 +267,7 @@ class BallResource(Model):
 		Field(
 			name="location",
 			label="Location",
-			input_=Locations(default="a")
+			input_=Locations(default="N/A")
 		)
   ]
 
