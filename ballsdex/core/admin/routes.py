@@ -37,7 +37,7 @@ async def generate_card(
 ):
     ball = await Ball.get(pk=pk)
     temp_instance = BallInstance(ball=ball, player=await Player.first(), count=1)
-    buffer = temp_instance.draw_card()
+    buffer = await temp_instance.draw_card()
     return Response(content=buffer.read(), media_type="image/png")
 
 
@@ -54,5 +54,5 @@ async def generate_special_card(
             content="At least one ball must exist", status_code=422, media_type="text/html"
         )
     temp_instance = BallInstance(ball=ball, special=special, player=await Player.first(), count=1)
-    buffer = temp_instance.draw_card()
+    buffer = await temp_instance.draw_card()
     return Response(content=buffer.read(), media_type="image/png")

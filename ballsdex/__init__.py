@@ -1,1 +1,1 @@
-__version__ = "2.5.4"
+__version__ = "pantonia_2.7.6"
