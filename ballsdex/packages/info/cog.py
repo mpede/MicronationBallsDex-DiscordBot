@@ -146,12 +146,15 @@ class Info(commands.Cog):
             f"**{players_count}** players that caught "
             f"**{balls_instances_count}** {settings.collectible_name}s\n"
             f"**{len(self.bot.guilds)}** servers playing\n\n"
-            "This bot was made by **El Laggron**, consider supporting me on my "
-            "[Patreon](https://patreon.com/retke) :heart:\n\n"
-            f"[Discord server]({settings.discord_invite}) • [Invite me]({invite_link}) • "
-            f"[Source code and issues]({settings.github_link})\n"
+            "This bot was made by the Pantonian Coders, Django07, millipede, e_, Magestick, sebbog\n"
+            "Main artists theforgettabledino, sebbog, Magestick & Rusty Potato :heart:\n\n"
+            "Thanks goes out to all microsnations out there who contributed artwork / balls\n\n\"
+            "For request of adding your micronation as a ball, please go to our support server and file a request!\n\n"
+            f"[Discord Support Server]({settings.discord_invite})\n\n MicronationsBalls: [Invite me]({invite_link}) •  [Invite me - alternative link]({settings.discord_bot_invite}) •"
+            f"[Source code]({settings.github_link})\n"
             f"[Terms of Service]({settings.terms_of_service}) • "
-            f"[Privacy policy]({settings.privacy_policy})"
+            f"[Privacy policy]({settings.privacy_policy})\n\n\n"
+            ":heart: PANTONIA LOVES YOU! :heart:\n\n"
         )
 
         embed.set_thumbnail(url=self.bot.user.display_avatar.url)
