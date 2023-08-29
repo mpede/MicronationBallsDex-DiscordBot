@@ -42,13 +42,13 @@ class NewsCommands(discord.ui.View):
 		article = self.allticles[self.index]
 		await interaction.response.edit_message(embed=Info.make_embed(article), view=NewsCommands(self.allticles, self.index))
 
-	@discord.ui.button(label="-1", style=discord.ButtonStyle.blurple)
+	@discord.ui.button(label="Page -1", style=discord.ButtonStyle.blurple)
 	async def backwardbtn(self, interaction: discord.Interaction, button):
 		if self.index > 0:   self.index -= 1
 		article = self.allticles[self.index]
 		await interaction.response.edit_message(embed=Info.make_embed(article), view=NewsCommands(self.allticles, self.index))
 
-	@discord.ui.button(label="+1", style=discord.ButtonStyle.blurple)
+	@discord.ui.button(label="Page +1", style=discord.ButtonStyle.blurple)
 	async def forwardbtn(self, interaction: discord.Interaction, button):
 		if self.index < len(self.allticles)-1:   self.index += 1
 		article = self.allticles[self.index]

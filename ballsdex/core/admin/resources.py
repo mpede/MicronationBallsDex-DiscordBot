@@ -42,6 +42,10 @@ class ColorWrapper(inputs.Color):
 	async def parse_value(self, request: Request, value):
 		return int(value[1:], 16)
 
+	async def render(self, request: Request, value):
+		value = "This is a test."
+		return await super(inputs.Input, self).render(request, value)
+
 @app.register
 class AdminResource(Model):
     label = "Admin"
