@@ -38,6 +38,8 @@ class Settings:
         Used in the /about command
     discord_invite: str
         Used in the /about command
+    discord_bot_invite: str
+        Used in the /about command
     terms_of_service: str
         Used in the /about command
     privacy_policy: str
@@ -63,6 +65,7 @@ class Settings:
     about_description: str = ""
     github_link: str = ""
     discord_invite: str = ""
+    discord_bot_invite: str = ""
     terms_of_service: str = ""
     privacy_policy: str = ""
 
@@ -100,6 +103,7 @@ def read_settings(path: "Path"):
     settings.about_description = content["about"]["description"]
     settings.github_link = content["about"]["github-link"]
     settings.discord_invite = content["about"]["discord-invite"]
+    settings.discord_bot_invite = content["about"]["discord-bot-invite"]
     settings.terms_of_service = content["about"]["terms-of-service"]
     settings.privacy_policy = content["about"]["privacy-policy"]
 
