@@ -1,27 +1,39 @@
 version: '3.4'
 
 x-common-env-vars:
-  - &postgres-db
-    POSTGRES_DB=ballsdex
-  - &postgres-user
-    POSTGRES_USER=ballsdex
-  - &postgres-url
-    "BALLSDEXBOT_DB_URL=postgres://ballsdex:${POSTGRES_PASSWORD}@postgres:5432/ballsdex"
+  - &bot-hostname mnb-bot-dev
+  - &admin-panel-hostname mnb-adminpanel-dev
+  - &postgres-db-hostname mnb-postgres-dev
+  - &postgres-backup-hostname mnb-postgres-backup-dev
+  - &redis-hostname mnb-redis-dev
+  - &admin-panel-port 8112
+  - &admin-panel-cmd poetry run uvicorn ballsdex.core.admin:_app --host 0.0.0.0 --port 8112
+  - &postgres-db POSTGRES_DB=ballsdex
+  - &postgres-user POSTGRES_USER=ballsdex
+  - &postgres-url "BALLSDEXBOT_DB_URL=postgres://ballsdex:${POSTGRES_PASSWORD}@mnb-postgres-dev:5432/ballsdex"
+  - &redis-url "BALLSDEXBOT_REDIS_URL=redis://mnb-redis-dev"
+  - &postgres-host POSTGRES_HOST=mnb-postgres-dev
+  - &postgres-backup-location /var/opt/pgbackups-dev:/backups
+  - &traefik-cfg
+      - "traefik.enable=true"
+      - "traefik.http.routers.mbdadev.rule=Host(`balls-dev.pantonianrepublic.com`)"
+      - "traefik.http.routers.mbdadev.entrypoints=websecure"
+      - "traefik.http.routers.mbdadev.tls.certresolver=mpede"
+      - "traefik.http.routers.mbdadev.service=mbdadev"
+      - "traefik.http.services.mbdadev.loadbalancer.server.port=8112"
+
 
 services:
 
   bot:
     restart: "no"
     image: ballsdex
+    hostname: *bot-hostname
     build: .
     environment:
       - *postgres-url
     depends_on:
       - postgres-db
-    # ports:
-    #   - "15260:15260"
-    networks:
-      - internal
     volumes:
       - type: bind
         source: ./
@@ -31,13 +43,12 @@ services:
 
   admin-panel:
     image: ballsdex
-    ports:
-      - "8000:8000"
-    networks:
-      - internal
+    hostname: *admin-panel-hostname
+    expose:
+      - *admin-panel-port
     environment:
       - *postgres-url
-      - "BALLSDEXBOT_REDIS_URL=redis://redis"
+      - *redis-url
     depends_on:
       - postgres-db
       - redis-cache
@@ -46,39 +57,35 @@ services:
         source: ./
         target: /code
     tty: true
-    command: poetry run uvicorn ballsdex.core.admin:_app --host 0.0.0.0
+    command: *admin-panel-cmd
+    labels: *traefik-cfg
+
 
   postgres-db:
     image: postgres
     restart: always
-    hostname: postgres
+    hostname: *postgres-db-hostname
     environment:
       - *postgres-db
       - *postgres-user
       - POSTGRES_PASSWORD
-    # WARNING: before exposing ports, change the default db password in the .env file!
-    # ports:
-    #   - "5432:5432"
-    networks:
-      - internal
-    volumes:  # Persist the db data
+    volumes: 
       - database-data:/var/lib/postgresql/data
 
   postgres-backup:
     image: prodrigestivill/postgres-backup-local
     restart: always
     user: postgres:postgres
+    hostname: *postgres-backup-hostname
     volumes:
-      - /var/opt/pgbackups:/backups
+      - *postgres-backup-location
     depends_on:
       - postgres-db
-    networks:
-      - internal
     environment:
       - *postgres-db
       - *postgres-user
       - POSTGRES_PASSWORD
-      - POSTGRES_HOST=postgres
+      - *postgres-host
       - SCHEDULE=@daily
       - BACKUP_KEEP_DAYS=7
       - BACKUP_KEEP_WEEKS=4
@@ -88,33 +95,19 @@ services:
   redis-cache:
     image: redis:latest
     restart: always
-    hostname: redis
-    # ports:
-    #   - "6379:6379"
-    networks:
-      - internal
+    hostname: *redis-hostname
     environment:
       - ALLOW_EMPTY_PASSWORD=yes
     command: redis-server --save 20 1 --loglevel warning
     volumes: 
       - cache-data:/data
 
-  # Uncomment to enable gateway proxy feature and
-  # add "gateway-url: ws://gateway_proxy:5421" to your config.yaml
-  # Also change tag corresponding to your platform if not x86-64
-  #
-  # gateway-proxy:
-  #   container_name: gateway_proxy
-  #   image: ghcr.io/martinebot/gateway-proxy:x86-64
-  #   restart: always
-  #   volumes:
-  #     - ./gatewayproxy/config.json:/config.json
-  #   networks:
-  #     - internal
 
 volumes:
   database-data:
   cache-data:
 
 networks:
-  internal:
+  default: 
+    name: traefik
+    external: true
