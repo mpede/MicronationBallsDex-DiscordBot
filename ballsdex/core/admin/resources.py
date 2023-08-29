@@ -1,9 +1,9 @@
-import os
-import json
+import os, json
+from pathlib import Path
 from fastapi_admin.app import app
 from fastapi_admin.enums import Method
 from fastapi_admin.file_upload import FileUpload
-from fastapi_admin.resources import Field, Link, Model, Action
+from fastapi_admin.resources import ComputeField, Field, Link, Model, Action
 from fastapi_admin.widgets import displays, filters, inputs
 from starlette.requests import Request
 from ballsdex.core.models import (
@@ -16,6 +16,7 @@ from ballsdex.core.models import (
     Player,
     GuildConfig,
     BlacklistedID,
+	NewsArticle
 )
 from typing import List
 
@@ -26,11 +27,24 @@ class Home(Link):
     icon = "fas fa-home"
     url = "/admin"
 
+SOURCES_PATH = Path(os.path.dirname(os.path.abspath(__file__)), "../image_generator/src")
+f = open(SOURCES_PATH / "flags.json")
+locs = [(x,x) for x in list(json.loads(f.read()).keys())]
+f.close()
 
 upload = FileUpload(uploads_dir=os.path.join(".", "static", "uploads"))
-with open("ballsdex/core/admin/capacity-ref.json") as f:
-    ref = json.loads(f.read())
 
+class Locations(inputs.Select):
+	async def get_options(self):
+		return locs
+
+class ColorWrapper(inputs.Color):
+	async def parse_value(self, request: Request, value):
+		return int(value[1:], 16)
+
+	async def render(self, request: Request, value):
+		value = "This is a test."
+		return await super(inputs.Input, self).render(request, value)
 
 @app.register
 class AdminResource(Model):
@@ -100,20 +114,8 @@ class SpecialResource(Model):
         ),
         "rarity",
         Field(
-            name="democracy_card",
-            label="Democracy card",
-            display=displays.Image(width="40"),
-            input_=inputs.Image(upload=upload, null=True),
-        ),
-        Field(
-            name="dictatorship_card",
-            label="Dictatorship card",
-            display=displays.Image(width="40"),
-            input_=inputs.Image(upload=upload, null=True),
-        ),
-        Field(
-            name="union_card",
-            label="Union card",
+            name="background",
+            label="Special background",
             display=displays.Image(width="40"),
             input_=inputs.Image(upload=upload, null=True),
         ),
@@ -135,6 +137,62 @@ class SpecialResource(Model):
 
 
 @app.register
+class RegimeResource(Model):
+    label = "Regime"
+    model = Regime
+    icon = "fas fa-flag"
+    page_pre_title = "regime list"
+    page_title = "Regimes"
+    fields = [
+        "name",
+        Field(
+            name="background",
+            label="Background (1428x2000)",
+            display=displays.Image(width="40"),
+            input_=inputs.Image(upload=upload, null=True),
+        ),
+    ]
+
+
+@app.register
+class EconomyResource(Model):
+    label = "Economy"
+    model = Economy
+    icon = "fas fa-coins"
+    page_pre_title = "economy list"
+    page_title = "Economies"
+    fields = [
+        "name",
+        Field(
+            name="icon",
+            label="Icon (512x512)",
+            display=displays.Image(width="40"),
+            input_=inputs.Image(upload=upload, null=True),
+        ),
+    ]
+
+
+@app.register
+class NewsResource(Model):
+	label = "Articles"
+	model = NewsArticle
+	page_size = 50
+	icon = "fas fa-globe"
+	page_pre_title = "news"
+	page_title = "News Articles"
+	filters = []
+	fields = [
+		"title",
+		"content",
+		"date",
+		Field(
+			name = "color",
+			label = "Color",
+			input_=ColorWrapper()
+		)
+	]
+
+@app.register
 class BallResource(Model):
     label = "Ball"
     model = Ball
@@ -149,8 +207,8 @@ class BallResource(Model):
             search_mode="icontains",
             placeholder="Search for balls",
         ),
-        filters.Enum(enum=Regime, name="regime", label="Regime"),
-        filters.Enum(enum=Economy, name="economy", label="Economy"),
+        filters.ForeignKey(model=Regime, name="regime", label="Regime"),
+        filters.ForeignKey(model=Economy, name="economy", label="Economy"),
         filters.Boolean(name="enabled", label="Enabled"),
         filters.Boolean(name="tradeable", label="Tradeable"),
     ]
@@ -193,7 +251,7 @@ class BallResource(Model):
             name="capacity_description",
             label="Capacity description",
         ),
-        # Field(
+	    # Field(
         #     name="capacity_logic",
         #     label="Capacity logic",
         #     input_=inputs.Json(
@@ -206,7 +264,16 @@ class BallResource(Model):
         #         },
         #     ),
         # ),
-    ]
+		Field(
+			name="tags",
+			label="Tags",
+		),
+		Field(
+			name="location",
+			label="Location",
+			input_=Locations(default="N/A")
+		)
+  ]
 
     async def get_actions(self, request: Request) -> List[Action]:
         actions = await super().get_actions(request)

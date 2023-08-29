@@ -21,6 +21,9 @@ class Settings:
         Discord token for the bot to connect
     gateway_url: str | None
         The URL of the Discord gateway that this instance of the bot should connect to and use.
+    shard_count: int | None
+        The number of shards to use for this bot instance.
+        Must be equal to the one set in the gateway proxy if used.
     prefix: str
         Prefix for text commands, mostly unused. Defaults to "b."
     collectible_name: str
@@ -34,6 +37,8 @@ class Settings:
     github_link: str
         Used in the /about command
     discord_invite: str
+        Used in the /about command
+    discord_bot_invite: str
         Used in the /about command
     terms_of_service: str
         Used in the /about command
@@ -49,6 +54,7 @@ class Settings:
 
     bot_token: str = ""
     gateway_url: str | None = None
+    shard_count: int | None = None
     prefix: str = "b."
 
     collectible_name: str = "countryball"
@@ -59,6 +65,7 @@ class Settings:
     about_description: str = ""
     github_link: str = ""
     discord_invite: str = ""
+    discord_bot_invite: str = ""
     terms_of_service: str = ""
     privacy_policy: str = ""
 
@@ -84,6 +91,7 @@ def read_settings(path: "Path"):
 
     settings.bot_token = content["discord-token"]
     settings.gateway_url = content.get("gateway-url")
+    settings.shard_count = content.get("shard-count")
     settings.prefix = content["text-prefix"]
     settings.team_owners = content.get("owners", {}).get("team-members-are-owners", False)
     settings.co_owners = content.get("owners", {}).get("co-owners", [])
@@ -95,6 +103,7 @@ def read_settings(path: "Path"):
     settings.about_description = content["about"]["description"]
     settings.github_link = content["about"]["github-link"]
     settings.discord_invite = content["about"]["discord-invite"]
+    settings.discord_bot_invite = content["about"]["discord-bot-invite"]
     settings.terms_of_service = content["about"]["terms-of-service"]
     settings.privacy_policy = content["about"]["privacy-policy"]
 
