@@ -44,7 +44,7 @@ prometheus-client = "^0.16.0"
 [tool.aerich]
 tortoise_orm = "ballsdex.__main__.TORTOISE_ORM"
 location = "./migrations"
-src_folder = "./."
+src_folder = "./ballsdex"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

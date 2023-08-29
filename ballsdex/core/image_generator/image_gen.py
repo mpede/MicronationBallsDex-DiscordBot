@@ -81,7 +81,7 @@ async def draw_card(ball_instance):
     )
     draw.text(
         (30, 1870),
-        "Made on Planet Earth by Pantonian Coders. Visit Pantonia!\n" f"This artwork was made by {ball.credits}",
+        "Made on Planet Earth by Pantonian Coders. Visit Pantonia!\n" f"Artist(s): {ball.credits}",
         font=credits_font,
         fill=(0, 0, 0, 255),
         stroke_width=0,
