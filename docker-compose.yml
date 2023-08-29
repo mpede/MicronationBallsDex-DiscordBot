@@ -110,4 +110,4 @@ volumes:
 networks:
   default: 
     name: traefik
-    external: true
+    external: false
