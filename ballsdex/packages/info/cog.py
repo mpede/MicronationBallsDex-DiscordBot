@@ -149,13 +149,13 @@ class Info(commands.Cog):
             "This bot was made by the Pantonian Coders:\nDjango07, millipede, e_, Magestick, sebbog\nOriginal bot developed by El Laggron (laggron42)\n\n"
             "Main artists are:\ntheforgettabledino, sebbog, Magestick & Rusty Potato\n\n"
             "Thanks goes out to all micronations out there who contributed artwork / balls\n\n"
-            "For request of adding your micronation as a ball, please go to our support server and file a request!\n"
-            f"[Discord Support Server]({settings.discord_invite})\n\n MicronationsBalls: [Invite me]({invite_link})\n"
-            f"[Invite me - alternative link]({settings.discord_bot_invite})\n"
-            f"[Source code]({settings.github_link})\n"
+            "If you want your own micronation ball, for example representing your micronation, please go to our support server and make a new request under suggestions!\n"
+            f"[Support Server]({settings.discord_invite}) • [Invite me]({invite_link}) • "
+            f"[Alt invite link]({settings.discord_bot_invite})\n"
+            f"[Source code]({settings.github_link}) • "
             f"[Terms of Service]({settings.terms_of_service}) • "
-            f"[Privacy policy]({settings.privacy_policy})\n\n\n"
-            ":heart: PANTONIA LOVES YOU! :heart:\n\n"
+            f"[Privacy policy]({settings.privacy_policy})\n\n"
+            "Made in Pantonia with love :heart:\n\n"
         )
 
         embed.set_thumbnail(url=self.bot.user.display_avatar.url)
