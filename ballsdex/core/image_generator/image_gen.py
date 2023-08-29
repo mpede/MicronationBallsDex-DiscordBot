@@ -81,8 +81,7 @@ async def draw_card(ball_instance):
     )
     draw.text(
         (30, 1870),
-        # Modifying the line below is breaking the licence as you are removing credits
-        "Made on earth by Pantonian Coders: millipede | e_ | django07 | magestick | sebbog. Special mention to laggron42\n" f"Visit Pantonia on Discord! Artwork on this card created by {ball.credits}",
+        "Made on Planet Earth by Pantonian Coders. Visit Pantonia!\n" f"This artwork was made by {ball.credits}",
         font=credits_font,
         fill=(0, 0, 0, 255),
         stroke_width=0,
