@@ -1,0 +1,18 @@
+name: Check last 300 lines of dev logs
+
+on:
+  workflow_dispatch:
+
+jobs:
+  log_check_300_dev:
+    runs-on: ubuntu-latest
+    steps:
+    - name: multiple commands
+      uses: appleboy/ssh-action@v1.0.0
+      with:
+        host: ${{ secrets.MNBD_HOST }}
+        username: ${{ secrets.MNBD_USERNAME }}
+        password: ${{ secrets.MNBD_PASSWORD }}
+        script: |
+          cd /opt/mnballsdex_dev
+          tail -n300 ballsdex.log
