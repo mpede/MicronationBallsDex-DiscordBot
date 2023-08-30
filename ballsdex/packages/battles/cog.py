@@ -21,8 +21,6 @@ class BattleAcceptView(discord.ui.View):
 			await interaction.response.send_message(f"<@{interaction.user.id}> This message was not meant for you!", ephemeral=True)
 			return
 
-		button.disabled = True
-
 		soldiersA = []
 		soldiersB = []
 
@@ -39,8 +37,15 @@ class BattleAcceptView(discord.ui.View):
 
 		battle = Battle(usera, userb, soldiersA, soldiersB)
 		resp = battle.prepmsg()
-		await interaction.message.edit(content=f"<@{self.target.id}>, <@{self.challenger.id}> wants to battle you!\nDo you accept?", view=self)
-		await interaction.response.send_message(resp[0], view=resp[1])
+		await interaction.response.edit_message(resp[0], view=resp[1])
+
+	@discord.ui.button(label="Decline", style=dscord.ButtonStyle.red)
+	await def decline(self, interaction: discord.Interaction,
+		if not interaction.user == self.target:
+			await interaction.response.send_message(f"<@{interaction.user.id}> This message was not meant for you!", epheremal=True)
+			return
+
+		await interaction.response.edit_message(content=f"This battle has been declined")
 
 class Battles(commands.GroupCog):
 
