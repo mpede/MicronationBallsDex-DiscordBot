@@ -46,9 +46,9 @@ class Battle:
 		teamanames = []
 		teambnames = []
 		for ball in self.teama:
-			teamanames.append(ball.countryball.name)
+			teamanames.append(ball.countryball.short_name)
 		for ball in self.teamb:
-			teambnames.append(ball.countryball.name)
+			teambnames.append(ball.countryball.short_name)
 
 		msg = INITMSG
 		msg = msg.replace("^USERA", self.usera)

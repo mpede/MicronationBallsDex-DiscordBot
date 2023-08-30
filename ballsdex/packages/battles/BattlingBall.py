@@ -9,11 +9,7 @@ class BattlingBall:
 		self.instance = instance
 		self.capacity_enabled = False
 
-		self.countryball = instance.countryball # These lines of code only exist so that it works perfectly with the image gen
-		self.cached_regime = instance.cached_regime
-		self.cached_economy = instance.cached_economy
-		self.shiny = instance.shiny
-		self.special_card = instance.special_card
+		self.countryball = instance.countryball
 
 		self.dead = False
 
