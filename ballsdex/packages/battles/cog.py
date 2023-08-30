@@ -21,8 +21,16 @@ class BattleAcceptView(discord.ui.View):
 			await interaction.response.send_message(f"<@{interaction.user.id}> This message was not meant for you!", ephemeral=True)
 			return
 
-		soldiersA = [random.choice(self.ballsA) for i in range(5)]
-		soldiersB = [random.choice(self.ballsB) for i in range(5)]
+		soldiersA = []
+		soldiersB = []
+
+		for i in range(5):
+			ballA = random.choice(self.ballsA)
+			ballB = random.choice(self.ballsB)
+			self.ballsA.remove(ballA)
+			self.ballsB.remove(ballB)
+			soldiersA.append(ballA)
+			soldiersB.append(ballB)
 
 		usera = self.challenger.display_name
 		userb = self.target.display_name
