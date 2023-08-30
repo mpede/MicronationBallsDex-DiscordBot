@@ -22,7 +22,6 @@ class Comps(discord.ui.View):
 	async def btn(self, interaction: discord.Interaction, button: discord.ui.Button):
 		await interaction.response.send_message("amogum")
 
-	
 
 class Battle:
 	def __init__(self, usera, userb, teama, teamb):

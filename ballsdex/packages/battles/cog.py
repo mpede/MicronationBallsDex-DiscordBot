@@ -2,51 +2,33 @@ from discord import app_commands
 from discord.ext import commands
 from ballsdex.packages.battles.Battle import Battle
 from ballsdex.core.bot import BallsDexBot
+from ballsdex.core.models import Player
+from tortoise.exceptions import DoesNotExist
 import discord, random
 
-class DummyBall:
-	def __init__(self, name):
-		self.name = name
-
-class DummyInst:
-	def __init__(self, hp, ap, ball):
-		self.health = hp
-		self.attack = ap
-		self.countryball = ball
-
-		self.cached_regime = None
-		self.cached_economy = None
-		self.shiny = None
-		self.special_card = None
-
-PANTONIA = DummyInst(12,5,DummyBall("Pantonia"))
-OLDLUNARIA = DummyInst(5,12,DummyBall("Old Lunaria"))
-NEWYORK = DummyInst(8,4,DummyBall("New York"))
-WESTARCTICA = DummyInst(4,8,DummyBall("West Arctica"))
-TDC = DummyInst(6,9,DummyBall("TDC"))
-CODERSUNION = DummyInst(9,6,DummyBall("Coders Union"))
-TAKAYA = DummyInst(10,4,DummyBall("Takaya"))
-soldiersA = [PANTONIA,OLDLUNARIA,TDC,TAKAYA,CODERSUNION]
-soldiersB = [NEWYORK,WESTARCTICA,TDC,TAKAYA,CODERSUNION]
-
 class BattleAcceptView(discord.ui.View):
-	def __init__(self, usera, target, timeout=180):
+	def __init__(self, ballsA, ballsB, challenger, target, timeout=180):
 		super().__init__(timeout=timeout)
 		self.acceptable = False
 		self.target = target
-		self.usera = usera
+		self.challenger = challenger
+		self.ballsA = ballsA
+		self.ballsB = ballsB
 
 	@discord.ui.button(label="Accept", style=discord.ButtonStyle.green)
 	async def accept(self, interaction: discord.Interaction, button):
-		global soldiersA, soldiersB
 		if not interaction.user == self.target:
-			await interaction.response.send_message(f"<@{interaction.user.id}> This message was not meant for you")
+			await interaction.response.send_message(f"<@{interaction.user.id}> This message was not meant for you!", ephemeral=True)
 			return
-		usera = self.usera.display_name # confuzzled, arent you!
-		userb = interaction.user.display_name
+
+		soldiersA = [random.choice(self.ballsA) for i in range(5)]
+		soldiersB = [random.choice(self.ballsB) for i in range(5)]
+
+		usera = self.challenger.display_name
+		userb = self.target.display_name
+
 		battle = Battle(usera, userb, soldiersA, soldiersB)
 		resp = battle.prepmsg()
-		button.disabled = True
 		await interaction.response.send_message(resp[0], view=resp[1])
 
 class Battles(commands.GroupCog):
@@ -58,9 +40,15 @@ class Battles(commands.GroupCog):
 	@app_commands.command(description="Duke it out with somebody!")
 	@app_commands.describe(opponent="Who you want to battle")
 	async def start(self, interaction: discord.Interaction, opponent: discord.User):
-		#global soldiersA, soldiersB
-		#usera = interaction.user.display_name
-		#userb = opponent.display_name
-		#battle = Battle(id, usera, userb, soldiersA, soldiersB)
-		#resp = battle.prepmsg()
-		await interaction.response.send_message(f"<@{interaction.user.id}> BALLS!", view=BattleAcceptView(interaction.user, opponent))
+		try:
+			playera = await Player.get(discord_id=interaction.user.id)
+			playerb = await Player.get(discord_id=interaction.user.id)
+			await playera.fetch_related("balls")
+			await playerb.fetch_related("balls")
+			ballsA = await playera.balls.all()
+			ballsB = await playerb.balls.all()
+			if len(ballsA) < 5 or len(ballsB) < 5: raise DoesNotExist("nuh uh")
+		except DoesNotExist:
+			await interaction.response.send_message("You or your opponent do not have enough balls to partake in battle!", ephemeral=True)
+			return
+		await interaction.response.send_message(f"<@{opponent.id}>, <@{interaction.user.id}> wants to battle you!\nDo you accept?", view=BattleAcceptView(ballsA, ballsB, interaction.user, opponent))
