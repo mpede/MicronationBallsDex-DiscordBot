@@ -21,6 +21,8 @@ class BattleAcceptView(discord.ui.View):
 			await interaction.response.send_message(f"<@{interaction.user.id}> This message was not meant for you!", ephemeral=True)
 			return
 
+		button.disabled = True
+
 		soldiersA = []
 		soldiersB = []
 
@@ -37,6 +39,7 @@ class BattleAcceptView(discord.ui.View):
 
 		battle = Battle(usera, userb, soldiersA, soldiersB)
 		resp = battle.prepmsg()
+		await interaction.response.edit_message(f"<@{self.target.id}>, <@{self.challenger.id}> wants to battle you!\nDo you accept?", view=self)
 		await interaction.response.send_message(resp[0], view=resp[1])
 
 class Battles(commands.GroupCog):
