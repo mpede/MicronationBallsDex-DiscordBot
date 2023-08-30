@@ -50,7 +50,7 @@ class Battles(commands.GroupCog):
 	async def start(self, interaction: discord.Interaction, opponent: discord.User):
 		try:
 			playera = await Player.get(discord_id=interaction.user.id)
-			playerb = await Player.get(discord_id=interaction.user.id)
+			playerb = await Player.get(discord_id=opponent.id)
 			await playera.fetch_related("balls")
 			await playerb.fetch_related("balls")
 			ballsA = await playera.balls.all()
