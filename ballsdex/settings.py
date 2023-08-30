@@ -88,6 +88,7 @@ settings = Settings()
 
 def read_settings(path: "Path"):
     content = yaml.load(path.read_text(), yaml.Loader)
+    #print(content)
 
     settings.bot_token = content["discord-token"]
     settings.gateway_url = content.get("gateway-url")
