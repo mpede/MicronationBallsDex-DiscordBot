@@ -6,6 +6,9 @@ from ballsdex.core.models import Player
 from tortoise.exceptions import DoesNotExist
 import discord, random
 
+class DeckSelectionView(discord.ui.View):
+	def __init__(self
+
 class BattleAcceptView(discord.ui.View):
 	def __init__(self, ballsA, ballsB, challenger, target, timeout=180):
 		super().__init__(timeout=timeout)
