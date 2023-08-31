@@ -71,4 +71,4 @@ class Battles(commands.GroupCog):
 			await interaction.response.send_message("You or your opponent do not have enough balls to partake in battle!", ephemeral=True)
 			return
 		await interaction.response.send_message(f"<@{opponent.id}>, <@{interaction.user.id}> wants to battle you!\nDo you accept?", view=BattleAcceptView(ballsA, ballsB, interaction.user, opponent))
-		await interaction.response.send_message("googoogaagaa", epheremal=True) # test
+		await interaction.response.send_message("googoogaagaa", ephemeral=True) # test
