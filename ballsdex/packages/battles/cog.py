@@ -9,10 +9,28 @@ import discord, random
 #class DeckSelectionView(discord.ui.View):
 #	def __init__(self
 
+class SelectView(discord.ui.View):
+	def __init__(self, 
+
+class DeckSelectionView(discord.ui.View):
+	def __init__(self, usera, userb, ballsA, ballsB, timeout=180):
+		super().__init__(timeout=timeout)
+		self.usera = usera
+		self.userb = userb
+		self.ballsA = ballsA
+		self.ballsB = ballsB
+
+	@discord.ui.button(label="Random", style=discord.ButtonStyle.gray)
+	def randomButton(self, interaction: discord.Interaction, button):
+		pass
+
+	@discord.ui.button(label="Select yourself", style=discod.ButtonStyle.gray)
+	def chooseButton(self, interaction: discord.Interaction, button):
+		pass
+
 class BattleAcceptView(discord.ui.View):
 	def __init__(self, ballsA, ballsB, challenger, target, timeout=180):
 		super().__init__(timeout=timeout)
-		self.acceptable = False
 		self.target = target
 		self.challenger = challenger
 		self.ballsA = ballsA
@@ -24,23 +42,7 @@ class BattleAcceptView(discord.ui.View):
 			await interaction.response.send_message(f"<@{interaction.user.id}> This message was not meant for you!", ephemeral=True)
 			return
 
-		soldiersA = []
-		soldiersB = []
-
-		for i in range(5):
-			ballA = random.choice(self.ballsA)
-			ballB = random.choice(self.ballsB)
-			self.ballsA.remove(ballA)
-			self.ballsB.remove(ballB)
-			soldiersA.append(ballA)
-			soldiersB.append(ballB)
-
-		usera = self.challenger.display_name
-		userb = self.target.display_name
-
-		battle = Battle(usera, userb, soldiersA, soldiersB)
-		resp = battle.prepmsg()
-		await interaction.response.edit_message(content=resp[0], view=resp[1])
+		await interaction.response.edit_message(content=">@{self.challenger.id} @{self.target.id} Please choose your method of deck selection", view=DeckSelectionView(self.challenger, self.target, self.ballsA, self.ballsB))
 
 	@discord.ui.button(label="Decline", style=discord.ButtonStyle.red)
 	async def decline(self, interaction: discord.Interaction, button):
@@ -71,4 +73,3 @@ class Battles(commands.GroupCog):
 			await interaction.response.send_message("You or your opponent do not have enough balls to partake in battle!", ephemeral=True)
 			return
 		await interaction.response.send_message(f"<@{opponent.id}>, <@{interaction.user.id}> wants to battle you!\nDo you accept?", view=BattleAcceptView(ballsA, ballsB, interaction.user, opponent))
-		await interaction.response.send_message("googoogaagaa", ephemeral=True) # test
