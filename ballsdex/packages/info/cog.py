@@ -103,7 +103,7 @@ class Info(commands.Cog):
         for instance in instances:
             score[(await instance.player).id] += 1
 
-		sorted = list(score.keys()).sort(reverse=True, key=(lambda x: score[x]))
+        sorted = list(score.keys()).sort(reverse=True, key=(lambda x: score[x]))
 
         await interaction.response.send_message(str(sorted))
 
