@@ -13,6 +13,8 @@ from ballsdex import __version__ as ballsdex_version
 from ballsdex.settings import settings
 from ballsdex.core.models import Ball, balls as countryballs
 from ballsdex.core.models import NewsArticle
+from ballsdex.core.models import BallInstance
+from ballsdex.core.models import Player
 from ballsdex.core.utils.tortoise import row_count_estimate
 
 if TYPE_CHECKING:
@@ -93,6 +95,15 @@ class Info(commands.Cog):
         index = len(allticles)-1
         latest = allticles[index]
         await interaction.response.send_message(embed=Info.make_embed(latest), view=NewsCommands(allticles, index))
+
+	@app_commands.command()
+	async def leaderboard(self, interaction.discord.Interaction):
+		score = {player.id: 0 for player in await Player.all()}
+		instances = await BallInstance.all()
+		for instance in instances:
+			score[instance.player] += 1
+
+		await interaction.response.send_message(str(score))
 
     @app_commands.command()
     async def about(self, interaction: discord.Interaction):
