@@ -101,7 +101,7 @@ class Info(commands.Cog):
         score = {player.id: 0 for player in await Player.all()}
         instances = await BallInstance.all()
         for instance in instances:
-            score[await instance.player] += 1
+            score[await instance.player.id] += 1
 
         await interaction.response.send_message(str(score))
 
