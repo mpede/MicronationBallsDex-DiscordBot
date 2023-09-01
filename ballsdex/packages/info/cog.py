@@ -97,7 +97,7 @@ class Info(commands.Cog):
         await interaction.response.send_message(embed=Info.make_embed(latest), view=NewsCommands(allticles, index))
 
     @app_commands.command()
-    async def leaderboard(self, interaction.discord.Interaction):
+    async def leaderboard(self, interaction: discord.Interaction):
         score = {player.id: 0 for player in await Player.all()}
         instances = await BallInstance.all()
         for instance in instances:
