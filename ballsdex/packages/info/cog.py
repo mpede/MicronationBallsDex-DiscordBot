@@ -103,7 +103,9 @@ class Info(commands.Cog):
         for instance in instances:
             score[(await instance.player).id] += 1
 
-        await interaction.response.send_message(str(score))
+		sorted = list(score.keys()).sort(reverse=True, key=(lambda x: score[x]))
+
+        await interaction.response.send_message(str(sorted))
 
     @app_commands.command()
     async def about(self, interaction: discord.Interaction):
