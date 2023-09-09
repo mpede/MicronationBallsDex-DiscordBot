@@ -39,7 +39,7 @@ class BattleAcceptView(discord.ui.View):
 	@discord.ui.button(label="Accept", style=discord.ButtonStyle.green)
 	async def accept(self, interaction: discord.Interaction, button):
 		if not interaction.user == self.target:
-				await interaction.response.send_message(content=f"<@{interaction.user.id}> This message was not meant for you!", ephemeral=True)
+			await interaction.response.send_message(content=f"<@{interaction.user.id}> This message was not meant for you!", ephemeral=True)
 			return
 
 		await interaction.response.edit_message(content=f"> @{self.challenger.id} @{self.target.id} Please choose your method of deck selection", view=DeckSelectionView(self.challenger, self.target, self.ballsA, self.ballsB))
