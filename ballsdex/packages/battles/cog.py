@@ -9,9 +9,6 @@ import discord, random
 #class DeckSelectionView(discord.ui.View):
 #	def __init__(self
 
-class SelectView(discord.ui.View):
-	def __init__(self, 
-
 class DeckSelectionView(discord.ui.View):
 	def __init__(self, usera, userb, ballsA, ballsB, timeout=180):
 		super().__init__(timeout=timeout)
