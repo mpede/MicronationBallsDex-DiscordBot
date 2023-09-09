@@ -21,7 +21,7 @@ class DeckSelectionView(discord.ui.View):
 	async def randomButton(self, interaction: discord.Interaction, button):
 		pass
 
-	@discord.ui.button(label="Select yourself", style=discod.ButtonStyle.gray)
+	@discord.ui.button(label="Select yourself", style=discord.ButtonStyle.gray)
 	async def chooseButton(self, interaction: discord.Interaction, button):
 		pass
 
