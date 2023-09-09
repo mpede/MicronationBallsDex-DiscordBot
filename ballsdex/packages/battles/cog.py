@@ -18,11 +18,11 @@ class DeckSelectionView(discord.ui.View):
 		self.ballsB = ballsB
 
 	@discord.ui.button(label="Random", style=discord.ButtonStyle.gray)
-	def randomButton(self, interaction: discord.Interaction, button):
+	async def randomButton(self, interaction: discord.Interaction, button):
 		pass
 
 	@discord.ui.button(label="Select yourself", style=discod.ButtonStyle.gray)
-	def chooseButton(self, interaction: discord.Interaction, button):
+	async def chooseButton(self, interaction: discord.Interaction, button):
 		pass
 
 class BattleAcceptView(discord.ui.View):
