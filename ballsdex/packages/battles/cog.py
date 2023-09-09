@@ -16,14 +16,17 @@ class DeckSelectionView(discord.ui.View):
 		self.userb = userb
 		self.ballsA = ballsA
 		self.ballsB = ballsB
+		self.somebodypressed = False
 
 	@discord.ui.button(label="Random", style=discord.ButtonStyle.gray)
 	async def randomButton(self, interaction: discord.Interaction, button):
-		pass
+		await interaction.response.send_message(f"Has somebody chosen? {self.somebodypressed}")
+		self.somebodypressed = True
 
 	@discord.ui.button(label="Select yourself", style=discord.ButtonStyle.gray)
 	async def chooseButton(self, interaction: discord.Interaction, button):
-		pass
+		await interaction.response.send_message(f"Has somebody chosen? {self.somebodypressed}")
+		self.somebodypressed = True
 
 class BattleAcceptView(discord.ui.View):
 	def __init__(self, ballsA, ballsB, challenger, target, timeout=180):
@@ -39,7 +42,7 @@ class BattleAcceptView(discord.ui.View):
 			await interaction.response.send_message(f"<@{interaction.user.id}> This message was not meant for you!", ephemeral=True)
 			return
 
-		await interaction.response.edit_message(content=">@{self.challenger.id} @{self.target.id} Please choose your method of deck selection", view=DeckSelectionView(self.challenger, self.target, self.ballsA, self.ballsB))
+		await interaction.response.edit_message(content=f"> @{self.challenger.id} @{self.target.id} Please choose your method of deck selection", view=DeckSelectionView(self.challenger, self.target, self.ballsA, self.ballsB))
 
 	@discord.ui.button(label="Decline", style=discord.ButtonStyle.red)
 	async def decline(self, interaction: discord.Interaction, button):
