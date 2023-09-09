@@ -47,7 +47,7 @@ class BattleAcceptView(discord.ui.View):
 	@discord.ui.button(label="Decline", style=discord.ButtonStyle.red)
 	async def decline(self, interaction: discord.Interaction, button):
 		if not interaction.user == self.target:
-			await interaction.response.send_message(f"<@{interaction.user.id}> This message was not meant for you!", epheremal=True)
+			await interaction.response.send_message(f"<@{interaction.user.id}> This message was not meant for you!", ephemeral=True)
 			return
 
 		await interaction.response.edit_message(content=f"This battle has been declined", view=None)
