@@ -1,7 +1,7 @@
 from discord import app_commands
 from discord.ext import commands
 from ballsdex.packages.battles.Battle import Battle
-from ballsdex.packages.players.countryballs_paginator import CountryballsViewer
+from ballsdex.packages.players.countryballs_paginator import CountryballsSelector
 from ballsdex.core.bot import BallsDexBot
 from ballsdex.core.models import Player, BallInstance
 from tortoise.exceptions import DoesNotExist
@@ -10,7 +10,7 @@ import discord, random
 #class DeckSelectionView(discord.ui.View):
 #	def __init__(self
 
-async def BallSelectSingular(CountryballsViewer):
+async def BallSelectSingular(CountryballsSelector):
 	async def ball_selected(self, interaction: discord.Interaction, ball_instance: BallInstance):
 		await interaction.response.send("DUCK!")
 
