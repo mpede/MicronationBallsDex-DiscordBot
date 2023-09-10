@@ -36,7 +36,7 @@ class DeckSelectionView(discord.ui.View):
 		await interaction.response.send_message(f"Has somebody chosen? {self.somebodypressed}")
 		self.somebodypressed = True
 ''' # im just gonna do this later
-
+'''
 class DeckSelect(discord.ui.View):
 	def __init__(self, balls, users, timeout=180):
 		super().__init__(timeout=timeout)
@@ -47,7 +47,7 @@ class DeckSelect(discord.ui.View):
 		self.deckB = []
 
 		self.optionsA = [discord.SelectOption()
-
+'''
 
 class BattleAcceptView(discord.ui.View):
 	def __init__(self, balls, users, timeout=180):
