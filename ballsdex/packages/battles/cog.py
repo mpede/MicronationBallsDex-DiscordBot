@@ -11,6 +11,9 @@ import discord, random
 #	def __init__(self
 
 async def BallSelectSingular(CountryballsSelector):
+	def __init__(self, duck, duck2):
+		print(duck,duck2)
+		super(duck,duck2)
 	async def ball_selected(self, interaction: discord.Interaction, ball_instance: BallInstance):
 		await interaction.response.send("DUCK!")
 
