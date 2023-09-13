@@ -20,7 +20,7 @@ class BallSelectMultiple(CountryballsSelector):
 	async def select_ball_menu(self, interaction: discord.Interaction, item: discord.ui.Select):
 		await interaction.response.defer(thinking=True)
 		#ball_instance = await BallInstance.get(id=int(interaction.data.get("values")[0]))
- 		instances = [await BallInstance.get(id=x) for x in interaction.data.get("values")]
+		instances = [await BallInstance.get(id=x) for x in interaction.data.get("values")]
 		await self.ball_selected(interaction, instances)
 
 	async def ball_selected(self, interaction: discord.Interaction, instances):
@@ -75,7 +75,7 @@ class BattleAcceptView(discord.ui.View):
 			return
 
 		#await interaction.response.edit_message(content=f"<@{self.challenger.id}> <@{self.target.id}> Please choose your method of deck selection", view=DeckSelectionView(self.users, self.balls))
-		paginator = BallSelectSingular(interaction, self.balls[0])
+		paginator = BallSelectMultiple(interaction, self.balls[0])
 		await paginator.start(content="balls")
 
 	@discord.ui.button(label="Decline", style=discord.ButtonStyle.red)
