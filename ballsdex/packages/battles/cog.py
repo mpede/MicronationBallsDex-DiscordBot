@@ -64,7 +64,7 @@ class BattleAcceptView(discord.ui.View):
 
 		#await interaction.response.edit_message(content=f"<@{self.challenger.id}> <@{self.target.id}> Please choose your method of deck selection", view=DeckSelectionView(self.users, self.balls))
 		paginator = BallSelectSingular(interaction, self.balls[0])
-		#paginator.start()
+		paginator.start()
 
 	@discord.ui.button(label="Decline", style=discord.ButtonStyle.red)
 	async def decline(self, interaction: discord.Interaction, button):
