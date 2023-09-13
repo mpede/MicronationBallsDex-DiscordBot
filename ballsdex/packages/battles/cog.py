@@ -11,9 +11,6 @@ import discord, random
 #	def __init__(self
 
 async def BallSelectSingular(CountryballsSelector):
-	def __init__(self, duck, duck2):
-		print(duck,duck2)
-		super(duck,duck2)
 	async def ball_selected(self, interaction: discord.Interaction, ball_instance: BallInstance):
 		await interaction.response.send("DUCK!")
 
@@ -55,10 +52,6 @@ class DeckSelect(discord.ui.View):
 class BattleAcceptView(discord.ui.View):
 	def __init__(self, balls, users, timeout=180):
 		super().__init__(timeout=timeout)
-		#self.target = target
-		#self.challenger = challenger
-		#self.ballsA = ballsA
-		#self.ballsB = ballsB
 		self.balls = balls
 		self.users = users
 
@@ -70,8 +63,8 @@ class BattleAcceptView(discord.ui.View):
 			return
 
 		#await interaction.response.edit_message(content=f"<@{self.challenger.id}> <@{self.target.id}> Please choose your method of deck selection", view=DeckSelectionView(self.users, self.balls))
-		paginator = BallSelectSingular(interaction, self.balls[0])
-		paginator.start()
+		paginator = BallSelectSingular(interaction=interaction, balls=self.balls[0])
+		#paginator.start()
 
 	@discord.ui.button(label="Decline", style=discord.ButtonStyle.red)
 	async def decline(self, interaction: discord.Interaction, button):
