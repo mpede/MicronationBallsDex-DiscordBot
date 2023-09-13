@@ -10,7 +10,7 @@ import discord, random
 #class DeckSelectionView(discord.ui.View):
 #	def __init__(self
 
-async def BallSelectSingular(CountryballsSelector):
+class BallSelectSingular(CountryballsSelector):
 	async def ball_selected(self, interaction: discord.Interaction, ball_instance: BallInstance):
 		await interaction.response.send("DUCK!")
 
