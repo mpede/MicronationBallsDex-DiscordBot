@@ -12,7 +12,19 @@ import discord, random
 
 class BallSelectSingular(CountryballsSelector):
 	async def ball_selected(self, interaction: discord.Interaction, ball_instance: BallInstance):
-		await interaction.response.send("DUCK!")
+		await interaction.send_message("DUCK!")
+
+class BallSelectMultiple(CountryballsSelector):
+
+	@discord.ui.select(min_values=5, max_values=5)
+	async def select_ball_menu(self, interaction: discord.Interaction, item: discord.ui.Select):
+		await interaction.response.defer(thinking=True)
+		#ball_instance = await BallInstance.get(id=int(interaction.data.get("values")[0]))
+ 		instances = [await BallInstance.get(id=x) for x in interaction.data.get("values")]
+		await self.ball_selected(interaction, instances)
+
+	async def ball_selected(self, interaction: discord.Interaction, instances):
+		await interaction.send_message("balls!!!")
 
 
 '''
