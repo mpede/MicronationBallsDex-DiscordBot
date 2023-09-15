@@ -7,14 +7,20 @@ from ballsdex.core.models import Player, BallInstance
 from tortoise.exceptions import DoesNotExist
 import discord, random
 
-#class DeckSelectionView(discord.ui.View):
-#	def __init__(self
+async def nothing(): # im evil himself
+	pass
 
 class BallSelectSingular(CountryballsSelector):
+	selectionfunc = nothing
+
 	async def ball_selected(self, interaction: discord.Interaction, ball_instance: BallInstance):
-		await interaction.send_message("DUCK!")
+		#await interaction.send_message("DUCK!")
+		await self.selectionfunc(interaction, ball_instance)
+	def on_select(self, func):
+		self.selectionfunc = func
 
 class BallSelectMultiple(CountryballsSelector):
+	selectionfunc = nothing
 
 	@discord.ui.select(min_values=5, max_values=5)
 	async def select_ball_menu(self, interaction: discord.Interaction, item: discord.ui.Select):
@@ -24,7 +30,11 @@ class BallSelectMultiple(CountryballsSelector):
 		await self.ball_selected(interaction, instances)
 
 	async def ball_selected(self, interaction: discord.Interaction, instances):
-		await interaction.send_message("balls!!!")
+		#await interaction.send_message("balls!!!")
+		await self.selectionfunc(interaction, instances)
+
+	def on_select(self, func)
+		self.selectionfunc = func
 
 
 '''
@@ -76,6 +86,10 @@ class BattleAcceptView(discord.ui.View):
 
 		#await interaction.response.edit_message(content=f"<@{self.challenger.id}> <@{self.target.id}> Please choose your method of deck selection", view=DeckSelectionView(self.users, self.balls))
 		paginator = BallSelectMultiple(interaction, self.balls[0])
+		@paginator.on_select
+		async def selected(interaction, instances):
+			await interaction.followup.send("ballen")
+
 		await paginator.start(content="balls")
 
 	@discord.ui.button(label="Decline", style=discord.ButtonStyle.red)
