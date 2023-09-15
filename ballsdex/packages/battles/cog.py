@@ -33,7 +33,7 @@ class BallSelectMultiple(CountryballsSelector):
 		#await interaction.send_message("balls!!!")
 		await self.selectionfunc(interaction, instances)
 
-	def on_select(self, func)
+	def on_select(self, func):
 		self.selectionfunc = func
 
 
