@@ -64,7 +64,7 @@ class BattleAcceptView(discord.ui.View):
 
 				await interaction.followup.send_message("ballen")
 
-			await paginator.start(content=f"@{self.users[1].id} Please choose your deck"}
+			await paginator.start(content=f"@{self.users[1].id} Please choose your deck")
 
 		await paginator.start(content=f"<@{self.users[0].id}> Please choose your deck")
 
