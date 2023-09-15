@@ -37,40 +37,6 @@ class BallSelectMultiple(CountryballsSelector):
 		self.selectionfunc = func
 
 
-'''
-class DeckSelectionView(discord.ui.View):
-	def __init__(self, usera, userb, ballsA, ballsB, timeout=180):
-		super().__init__(timeout=timeout)
-		self.usera = usera
-		self.userb = userb
-		self.ballsA = ballsA
-		self.ballsB = ballsB
-		self.randomA = None
-		self.randomB = None
-
-	@discord.ui.button(label="Random", style=discord.ButtonStyle.gray)
-	async def randomButton(self, interaction: discord.Interaction, button):
-		await interaction.response.send_message(f"Has somebody chosen? {self.somebodypressed}")
-		self.somebodypressed = True
-
-	@discord.ui.button(label="Select yourself", style=discord.ButtonStyle.gray)
-	async def chooseButton(self, interaction: discord.Interaction, button):
-		await interaction.response.send_message(f"Has somebody chosen? {self.somebodypressed}")
-		self.somebodypressed = True
-''' # im just gonna do this later
-'''
-class DeckSelect(discord.ui.View):
-	def __init__(self, balls, users, timeout=180):
-		super().__init__(timeout=timeout)
-		self.balls = balls
-		self.users = users
-
-		self.deckA = []
-		self.deckB = []
-
-		self.optionsA = [discord.SelectOption()
-'''
-
 class BattleAcceptView(discord.ui.View):
 	def __init__(self, balls, users, timeout=180):
 		super().__init__(timeout=timeout)
@@ -86,11 +52,21 @@ class BattleAcceptView(discord.ui.View):
 
 		#await interaction.response.edit_message(content=f"<@{self.challenger.id}> <@{self.target.id}> Please choose your method of deck selection", view=DeckSelectionView(self.users, self.balls))
 		paginator = BallSelectMultiple(interaction, self.balls[0])
+
 		@paginator.on_select
 		async def selected(interaction, instances):
-			await interaction.followup.send("ballen")
+			deck1 = instances
 
-		await paginator.start(content="balls")
+			paginator = BallSelectMultiple(interaction, self.balls[1]
+			@paginator.on_select
+			async def selectedd(interaction, instances):
+				deck2 = instances
+
+				await interaction.followup.send_message("ballen")
+
+			await paginator.start(content=f"@{self.users[1].id} Please choose your deck"}
+
+		await paginator.start(content=f"<@{self.users[0].id}> Please choose your deck")
 
 	@discord.ui.button(label="Decline", style=discord.ButtonStyle.red)
 	async def decline(self, interaction: discord.Interaction, button):
