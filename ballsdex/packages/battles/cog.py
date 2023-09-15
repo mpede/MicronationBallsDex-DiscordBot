@@ -14,7 +14,6 @@ class BallSelectSingular(CountryballsSelector):
 	selectionfunc = nothing
 
 	async def ball_selected(self, interaction: discord.Interaction, ball_instance: BallInstance):
-		#await interaction.send_message("DUCK!")
 		await self.selectionfunc(interaction, ball_instance)
 	def on_select(self, func):
 		self.selectionfunc = func
@@ -25,12 +24,10 @@ class BallSelectMultiple(CountryballsSelector):
 	@discord.ui.select(min_values=5, max_values=5)
 	async def select_ball_menu(self, interaction: discord.Interaction, item: discord.ui.Select):
 		await interaction.response.defer(thinking=True)
-		#ball_instance = await BallInstance.get(id=int(interaction.data.get("values")[0]))
 		instances = [await BallInstance.get(id=x) for x in interaction.data.get("values")]
 		await self.ball_selected(interaction, instances)
 
 	async def ball_selected(self, interaction: discord.Interaction, instances):
-		#await interaction.send_message("balls!!!")
 		await self.selectionfunc(interaction, instances)
 
 	def on_select(self, func):
@@ -50,7 +47,6 @@ class BattleAcceptView(discord.ui.View):
 			await interaction.response.send_message(content=f"<@{interaction.user.id}> This message was not meant for you!", ephemeral=True)
 			return
 
-		#await interaction.response.edit_message(content=f"<@{self.challenger.id}> <@{self.target.id}> Please choose your method of deck selection", view=DeckSelectionView(self.users, self.balls))
 		paginator = BallSelectMultiple(interaction, self.balls[0])
 
 		@paginator.on_select
@@ -62,9 +58,9 @@ class BattleAcceptView(discord.ui.View):
 			async def selectedd(interaction, instances):
 				deck2 = instances
 
-				await interaction.followup.send_message(f"{deck1} {deck2} <-- two deckz")
+				await interaction.send_message(f"{deck1} {deck2} <-- two deckz")
 
-			await paginator.start(content=f"@{self.users[1].id} Please choose your deck")
+			await paginator.start(content=f"<@{self.users[1].id}> Please choose your deck")
 
 		await paginator.start(content=f"<@{self.users[0].id}> Please choose your deck")
 
