@@ -57,12 +57,12 @@ class BattleAcceptView(discord.ui.View):
 		async def selected(interaction, instances):
 			deck1 = instances
 
-			paginator = BallSelectMultiple(interaction, self.balls[1]
+			paginator = BallSelectMultiple(interaction, self.balls[1])
 			@paginator.on_select
 			async def selectedd(interaction, instances):
 				deck2 = instances
 
-				await interaction.followup.send_message("ballen")
+				await interaction.followup.send_message(f"{deck1} {deck2} <-- two deckz")
 
 			await paginator.start(content=f"@{self.users[1].id} Please choose your deck")
 
