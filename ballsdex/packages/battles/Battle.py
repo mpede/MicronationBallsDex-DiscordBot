@@ -28,7 +28,7 @@ class Battle:
 		self.decks = (deck_a, deck_b)
 
 		self.users = users
-		self.actives = []
+		self.actives = [None, None]
 		self.ended = False
 
 	def prepmsg(self):
