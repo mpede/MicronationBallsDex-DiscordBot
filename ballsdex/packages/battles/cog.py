@@ -1,7 +1,7 @@
 from discord import app_commands
 from discord.ext import commands
 from ballsdex.packages.battles.Battle import Battle
-from ballsdex.packages.battles.paginator import BallSelectMultiple, BallSelectSingle
+from ballsdex.packages.battles.paginator import BallSelectMultiple, BallSelectSingular
 from ballsdex.core.bot import BallsDexBot
 from ballsdex.core.models import Player, BallInstance
 from tortoise.exceptions import DoesNotExist
