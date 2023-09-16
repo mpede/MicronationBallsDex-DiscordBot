@@ -1,3 +1,5 @@
+import disscord
+from ballsdex.core.models import BallInstance
 from ballsdex.packages.players.countryballs_paginator import CountryballsSelector
 
 async def nothing(): # im evil himself
