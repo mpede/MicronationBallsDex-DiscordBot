@@ -1,38 +1,11 @@
 from discord import app_commands
 from discord.ext import commands
 from ballsdex.packages.battles.Battle import Battle
-from ballsdex.packages.players.countryballs_paginator import CountryballsSelector
+from ballsdex.packages.battles.paginator import BallSelectMultiple, BallSelectSingle
 from ballsdex.core.bot import BallsDexBot
 from ballsdex.core.models import Player, BallInstance
 from tortoise.exceptions import DoesNotExist
 import discord, random
-
-async def nothing(): # im evil himself
-	pass
-
-class BallSelectSingular(CountryballsSelector):
-	selectionfunc = nothing
-
-	async def ball_selected(self, interaction: discord.Interaction, ball_instance: BallInstance):
-		await self.selectionfunc(interaction, ball_instance)
-	def on_select(self, func):
-		self.selectionfunc = func
-
-class BallSelectMultiple(CountryballsSelector):
-	selectionfunc = nothing
-
-	@discord.ui.select(min_values=5, max_values=5)
-	async def select_ball_menu(self, interaction: discord.Interaction, item: discord.ui.Select):
-		await interaction.response.defer(thinking=True)
-		instances = [await BallInstance.get(id=x) for x in interaction.data.get("values")]
-		await self.ball_selected(interaction, instances)
-
-	async def ball_selected(self, interaction: discord.Interaction, instances):
-		await self.selectionfunc(interaction, instances)
-
-	def on_select(self, func):
-		self.selectionfunc = func
-
 
 class BattleAcceptView(discord.ui.View):
 	def __init__(self, balls, users, timeout=180):
@@ -57,7 +30,9 @@ class BattleAcceptView(discord.ui.View):
 			@paginator.on_select
 			async def selectedd(interaction, instances):
 				deck2 = instances
-				await interaction.followup.send(f"{deck1} {deck2} <-- two deckz")
+				#await interaction.followup.send(f"{deck1} {deck2} <-- two deckz")
+				battle = Battle(self.users[0].display_name, self.users[1].display_name, deck1, deck2)
+				await interaction.send_message(battle.prepmsg())
 
 			await paginator.start(content=f"<@{self.users[1].id}> Please choose your deck")
 
