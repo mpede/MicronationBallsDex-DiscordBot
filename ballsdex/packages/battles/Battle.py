@@ -22,44 +22,37 @@ class Comps(discord.ui.View):
 		self.battle = battle
 
 class Battle:
-	def __init__(self, usera, userb, teama, teamb):
-		self.teama = []
-		self.teamb = []
-		self.activa = None
-		self.activb = None
+	def __init__(self, users, decks):
+		deck_a = [BattlingBall(instance) for instance in decks[0)]
+		deck_b = [BattlingBall(instance) for instance in decks[1]]
+		self.decks = (deck_a, deck_b)
+
+		self.users = users
+		self.actives = []
 		self.ended = False
-
-		for i in range(5):
-			self.teama.append(BattlingBall(teama[i]))
-
-		for i in range(5):
-			self.teamb.append(BattlingBall(teamb[i]))
-
-		self.usera = usera
-		self.userb = userb
 
 	def prepmsg(self):
 		global INITMSG
-		teamanames = []
-		teambnames = []
-		activaname = "Nobody"
-		activbname = "Nobody"
-		for ball in self.teama:
+		ballnames = ([], [])
+		activenames = ["Nobody", "Nobody"]
+		ballnames[0] = []
+
+		for ball in self.decks[0]:
 			teamanames.append(ball.countryball.short_name)
-		for ball in self.teamb:
+		for ball in self.decks[1]:
 			teambnames.append(ball.countryball.short_name)
 
-		if not self.activa == None:
+		if not self.actives[0] == None:
 			activaname = self.activa.countryball.short_name
-		if not self.activb == None:
+		if not self.actives[1] == None:
 			activbname = self.activb.countryball.short_name
 
 		msg = INITMSG
-		msg = msg.replace("^USERA", self.usera)
-		msg = msg.replace("^USERB", self.userb)
-		msg = msg.replace("^TEAMA", ", ".join(teamanames))
-		msg = msg.replace("^TEAMB", ", ".join(teambnames))
-		msg = msg.replace("^ACTIVA", activaname)
-		msg = msg.replace("^ACTIVB", activbname)
+		msg = msg.replace("^USERA", self.users[0])
+		msg = msg.replace("^USERB", self.users[1])
+		msg = msg.replace("^TEAMA", ", ".join(ballnames[0]))
+		msg = msg.replace("^TEAMB", ", ".join(ballnames[1]))
+		msg = msg.replace("^ACTIVA", activenames[0])
+		msg = msg.replace("^ACTIVB", activenames[1])
 		msg += "\n```"
 		return (msg,Comps(self))
