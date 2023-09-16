@@ -35,7 +35,6 @@ class Battle:
 		global INITMSG
 		ballnames = ([], [])
 		activenames = ["Nobody", "Nobody"]
-		ballnames[0] = []
 
 		for ball in self.decks[0]:
 			teamanames.append(ball.countryball.short_name)
