@@ -23,7 +23,7 @@ class Comps(discord.ui.View):
 
 class Battle:
 	def __init__(self, users, decks):
-		deck_a = [BattlingBall(instance) for instance in decks[0)]
+		deck_a = [BattlingBall(instance) for instance in decks[0]]
 		deck_b = [BattlingBall(instance) for instance in decks[1]]
 		self.decks = (deck_a, deck_b)
 
