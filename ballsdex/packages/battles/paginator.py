@@ -1,4 +1,4 @@
-import disscord
+import discord
 from ballsdex.core.models import BallInstance
 from ballsdex.packages.players.countryballs_paginator import CountryballsSelector
 
