@@ -6,10 +6,9 @@ INITMSG = '''```ansi
 It is the battle of the century!
 \x1b[31m^USERA\x1b[39m vs. \x1b[34m^USERB\x1b[39m
 
-Fighting Balls:
-\x1b[31m^TEAMA
-
-\x1b[34m^TEAMB
+Decks:
+\x1b[31m^TEAMA\x1b[39m
+\x1b[34m^TEAMB\x1b[39m
 
 In-combat Balls:
 \x1b[31m^ACTIVA\x1b[39m vs. \x1b[34m^ACTIVB\x1b[39m
