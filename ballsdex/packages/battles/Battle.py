@@ -37,9 +37,9 @@ class Battle:
 		activenames = ["Nobody", "Nobody"]
 
 		for ball in self.decks[0]:
-			teamanames.append(ball.countryball.short_name)
+			ballnames[0].append(ball.countryball.short_name)
 		for ball in self.decks[1]:
-			teambnames.append(ball.countryball.short_name)
+			ballnames[1].append(ball.countryball.short_name)
 
 		if not self.actives[0] == None:
 			activaname = self.activa.countryball.short_name
