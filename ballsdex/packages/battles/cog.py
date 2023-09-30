@@ -31,7 +31,8 @@ class BattleAcceptView(discord.ui.View):
 			async def selectedd(interaction, instances):
 				deck2 = instances
 				battle = Battle((self.users[0].display_name, self.users[1].display_name), (deck1, deck2))
-				await interaction.followup.send(content=battle.prepmsg())
+				battlemsg, battleview = battle.prepmsg()
+				await interaction.followup.send(content=battlemsg, view=battleview)
 
 			await paginator.start(content=f"<@{self.users[1].id}> Please choose your deck")
 
