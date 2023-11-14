@@ -13,7 +13,7 @@ Decks:
 In-combat Balls:
 \x1b[31m^ACTIVA\x1b[39m vs. \x1b[34m^ACTIVB\x1b[39m
 
-''' # i know, it looks unreadable as fuck
+''' # i know, it looks unreadable as fuck, that's because..... it is
 
 class SwitchOrPass(discord.ui.View):
 	def __init__(self, battle, timeout=360):
@@ -34,9 +34,11 @@ class Battle:
 		self.actives = [None, None]
 		self.ended = False
 
-	def prepmsg(self):
-		global INITMSG
-		ballnames = ([], [])
+	def prepmsg(self):async def disable(self):
+		for item in self.children:
+			item.disabled = True
+
+		await interaction.response.edit_message(view=self)[])
 		activenames = ["Nobody", "Nobody"]
 
 		for ball in self.decks[0]:
