@@ -17,6 +17,7 @@ In-combat Balls:
 
 class SwitchOrPass(discord.ui.View):
 	def __init__(self, battle, timeout=360):
+		super().__init__(timeout=timeout)
 		self.battle = battle
 
 	@discord.ui.button(label="Switch", style=discord.ButtonStyle.green)
