@@ -17,7 +17,7 @@ class BattleAcceptView(discord.ui.View):
 		for item in self.children:
 			item.disabled = True
 
-		await interacion.response.edit_message(view=self)
+		await interaction.response.edit_message(view=self)
 
 	@discord.ui.button(label="Accept", style=discord.ButtonStyle.green)
 	async def accept(self, interaction: discord.Interaction, button):
