@@ -13,12 +13,19 @@ class BattleAcceptView(discord.ui.View):
 		self.balls = balls
 		self.users = users
 
+	async def disable(self):
+		for item in self.children:
+			item.disabled = True
+
+		await interacion.response.edit_message(view=self)
 
 	@discord.ui.button(label="Accept", style=discord.ButtonStyle.green)
 	async def accept(self, interaction: discord.Interaction, button):
 		if not interaction.user == self.users[1]:
 			await interaction.response.send_message(content=f"<@{interaction.user.id}> This message was not meant for you!", ephemeral=True)
 			return
+
+		await self.disable()
 
 		paginator = BallSelectMultiple(interaction, self.balls[0])
 
@@ -43,6 +50,8 @@ class BattleAcceptView(discord.ui.View):
 		if not interaction.user == self.users[1]:
 			await interaction.response.send_message(content=f"<@{interaction.user.id}> This message was not meant for you!", ephemeral=True)
 			return
+
+		await self.disable()
 
 		await interaction.response.edit_message(content=f"This battle has been declined", view=None)
 
