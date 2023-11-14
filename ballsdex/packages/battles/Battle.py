@@ -15,10 +15,13 @@ In-combat Balls:
 
 ''' # i know, it looks unreadable as fuck
 
-class Comps(discord.ui.View):
-	def __init__(self, battle, timeout=180):
-		super().__init__(timeout=timeout)
+class SwitchOrPass(discord.ui.View):
+	def __init__(self, battle, timeout=360):
 		self.battle = battle
+
+	@discord.ui.button(label="Switch", style=discord.ButtonStyle.green)
+	async def switch(self, interaction, button):
+		await interaction.response.send_message("balls moment")
 
 class Battle:
 	def __init__(self, users, decks):
@@ -53,4 +56,4 @@ class Battle:
 		msg = msg.replace("^ACTIVA", activenames[0])
 		msg = msg.replace("^ACTIVB", activenames[1])
 		msg += "\n```"
-		return (msg,Comps(self))
+		return (msg,SwitchOrPass(self))
